@@ -227,7 +227,7 @@
     </label>
   </div>
 
-  <div class="flex justify-end pt-4">
+  <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">
     <button class="variant-filled btn" onclick={handleNext}>Next</button>
   </div>
 </section>

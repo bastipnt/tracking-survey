@@ -10,7 +10,7 @@
 </script>
 
 <div
-  class="card space-y-4 p-4 md:mt-24"
+  class="card space-y-4 p-4"
   in:fly={{ x: 200, duration: 500, delay: 0.001 }}
   out:fly={{ x: -200, duration: 100 }}
   onoutroend={handleTransitionFinished}
@@ -44,7 +44,7 @@
     Of course your data is <i class="text-teal-400">handled with care</i> in a way,
     that you are not identifiable!
   </p>
-  <div class="flex justify-end gap-4 pt-4">
+  <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">
     <button class="variant-filled btn" onclick={handleNext}
       >Ok, you can use my browser data</button
     >
