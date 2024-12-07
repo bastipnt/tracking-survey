@@ -15,7 +15,11 @@ const config = {
     ),
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        headingColor: "#1fb6ff",
+      },
+    },
   },
   plugins: [
     forms,
