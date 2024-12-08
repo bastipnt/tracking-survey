@@ -16,8 +16,6 @@
   });
 
   const handleNext = () => {
-    console.log("click", page);
-
     if (page >= 4) return (page = 4);
     transitioning = page;
     page++;
