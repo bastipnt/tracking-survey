@@ -1,6 +1,7 @@
 <script lang="ts">
   import Fingerprint from "./Pages/Fingerprint.svelte";
   import Questions from "./Pages/Questions.svelte";
+  import Questions2 from "./Pages/Questions2.svelte";
   import Thanks from "./Pages/Thanks.svelte";
   import Welcome from "./Pages/Welcome.svelte";
 
@@ -17,7 +18,7 @@
   const handleNext = () => {
     console.log("click", page);
 
-    if (page >= 3) return (page = 3);
+    if (page >= 4) return (page = 4);
     transitioning = page;
     page++;
   };
@@ -33,8 +34,10 @@
   {:else if page === 1 && transitioning !== 0}
     <Questions {handleNext} {handleTransitionFinished} />
   {:else if page === 2 && transitioning !== 1}
-    <Fingerprint {handleNext} {handleTransitionFinished} />
+    <Questions2 {handleNext} {handleTransitionFinished} />
   {:else if page === 3 && transitioning !== 2}
+    <Fingerprint {handleNext} {handleTransitionFinished} />
+  {:else if page === 4 && transitioning !== 3}
     <Thanks />
   {/if}
 </main>

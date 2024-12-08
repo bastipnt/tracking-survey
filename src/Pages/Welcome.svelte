@@ -19,10 +19,10 @@
   </h1>
   <p>
     It will take <i class="text-teal-400">~2 mins</i> and will help me to better
-    understand how much knowledge people have about tracking in the internet.
+    understand how much knowledge people have about tracking on the internet.
   </p>
   <p>
-    The <i class="text-teal-400">data</i> you provided will be part of my masters
+    The <i class="text-teal-400">data</i> you provide will be part of my masters
     thesis.
   </p>
   <p>

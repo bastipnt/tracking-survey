@@ -23,25 +23,30 @@
     for my masters thesis.
   </p>
   <p>
-    <i class="text-teal-400">Browser attributes</i> are for example: your operating
-    system, the browser and version you are using, your screen size, your installed
-    system languages, and some more.
+    <i class="text-teal-400">Browser attributes</i> are for example: your
+    operating system, the browser and version you are using, your screen size,
+    your installed system languages, and and and.
+    <span class="text-white text-opacity-40"
+      >(it's hard to give a complete list here, because it is pretty technical,
+      but the important thing to say is, that none of this data is related to
+      personal information about you)</span
+    >
   </p>
   <p>
-    Did you know, that these attributes can be used to <i class="text-teal-400"
-      >track</i
+    But, did you know, that these attributes can be used to <i
+      class="text-teal-400">track</i
     >
-    you? A lot of websites regularly collect these information and put them together
+    you? A lot of websites regularly collect this information and put them together
     to create something called a
     <i class="text-teal-400">browser fingerprint</i>.
   </p>
   <p>
-    💜💜💜<br />It would help me a lot if I can create such a
+    💜💜💜<br />It would help me a lot if I could create such a
     <i class="text-teal-400">browser fingerprint</i>
-    from you browser now to better understand how it works.<br />💜💜💜
+    from your browser now to better understand how it works.<br />💜💜💜
   </p>
   <p>
-    Of course your data is <i class="text-teal-400">handled with care</i> in a way,
+    Of course, your data is <i class="text-teal-400">handled with care</i> in a way
     that you are not identifiable!
   </p>
   <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">

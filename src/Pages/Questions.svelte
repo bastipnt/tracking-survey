@@ -46,17 +46,17 @@
   <div class="card p-4">
     <label for="radio-clue" class="label space-y-4">
       <span
-        >Do you have a clue, how <i class="text-teal-400">advertisers</i> know what
-        you like?</span
+        >Do you have a clue, how <i class="text-teal-400">advertisers</i> get information
+        on what you like/ you are interested in?</span
       >
       <div class="space-y-2">
         <label class="flex items-center space-x-2">
           <input class="radio" type="radio" name="radio-clue" value="1" />
-          <p>Not really</p>
+          <p>No, how do they do that?</p>
         </label>
         <label class="flex items-center space-x-2">
           <input class="radio" type="radio" name="radio-clue" value="2" />
-          <p>Yes!</p>
+          <p>Yes, I know.</p>
         </label>
       </div>
     </label>
@@ -199,8 +199,11 @@
     If yes...
     <label for="radio-i-am-tracked-knowlede" class="label space-y-4">
       <span
-        >Which of the following <i class="text-teal-400">tracking methods</i> do
-        you know?</span
+        >Which of the following <i class="text-teal-400">tracking methods</i>
+        are you familiar with?
+        <span class="text-white text-opacity-40"
+          >(multiple answers possible)</span
+        ></span
       >
       <div class="space-y-2">
         <label class="flex items-center space-x-2">
