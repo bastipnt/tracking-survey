@@ -40,7 +40,7 @@ jobs:
             ~/.bun/install/cache
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
       - name: Install dependencies
-        run: bun --filter 'tracking-survey-frontend' install
+        run: bun install
       - name: Build with Bun
         run: bun --filter 'tracking-survey-frontend' run build
       - name: Upload artifact
