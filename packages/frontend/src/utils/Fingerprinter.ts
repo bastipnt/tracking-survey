@@ -54,7 +54,7 @@ export default class Fingerprinter {
 
     return [
       {
-        name: "Your Visitor-ID:",
+        name: "Your Visitor-ID",
         value: this.fingerprint.fingerprintJS.visitorId,
       },
       ...fingerprintArr,
