@@ -2,10 +2,7 @@
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.node.json"
+      "path": "packages/frontend/tsconfig.json"
     },
-    {
-      "path": "src/tsconfig.json"
-    }
   ]
 }
