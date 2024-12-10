@@ -1,32 +1,15 @@
 <script lang="ts">
-  import type { GetResult } from "@fingerprintjs/fingerprintjs";
   import { fly } from "svelte/transition";
+  import type { FingerprintArr } from "../utils/Fingerprinter";
 
   type Props = {
     handleNext: () => void;
     handleTransitionFinished: () => void;
-    fingerprint?: GetResult;
+    fingerprintArr?: FingerprintArr;
   };
 
-  let { handleNext, handleTransitionFinished, fingerprint }: Props = $props();
-
-  const fingerprintArr =
-    fingerprint &&
-    Object.entries(fingerprint.components).map(([componentName, component]) => {
-      const name = componentName;
-      let value;
-
-      if ("value" in component) value = component.value;
-
-      if (value && typeof value === "object") value = "Object";
-
-      if (value === undefined || value === "") value = "Unknown";
-
-      return {
-        name,
-        value,
-      };
-    });
+  let { handleNext, handleTransitionFinished, fingerprintArr }: Props =
+    $props();
 </script>
 
 <section
@@ -79,7 +62,7 @@
     </section>
   </div>
 
-  {#if fingerprint !== undefined && fingerprintArr !== undefined}
+  {#if fingerprintArr !== undefined}
     <div class="card">
       <header class="card-header p-4">
         <h2 class="text-2xl">Your Device Fingerprint:</h2>
@@ -88,12 +71,6 @@
         <ul
           class="fingerprint-list flex flex-col overflow-hidden sm:grid sm:grid-cols-2"
         >
-          <li
-            class="flex-cols flex flex-wrap justify-between gap-2 px-4 py-2 sm:col-span-2 sm:grid sm:grid-cols-subgrid"
-          >
-            <p>Your Visitor-ID:</p>
-            <p><i class="text-teal-400">{fingerprint.visitorId}</i></p>
-          </li>
           {#each fingerprintArr as component, i}
             <li
               class={`flex-cols flex flex-wrap justify-between gap-2 px-4 py-2 sm:col-span-2 sm:grid sm:grid-cols-subgrid ${(i + 1) % 2 && "bg-surface-700"}`}
