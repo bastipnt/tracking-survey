@@ -11,6 +11,9 @@
   const FORM_FIELD_NAMES = [
     "interestInLearning8",
     "learningApproaches9",
+    "age10",
+    "work11",
+    "gender12",
   ] as const;
 
   type ValidationErrors = {
@@ -152,6 +155,95 @@
               name="learningApproaches9"
             />
             <p>Learning through an <i class="text-teal-400">art project</i></p>
+          </label>
+        </div>
+      </label>
+    </div>
+
+    <div class="card p-4">
+      <label class="label space-y-4" for="age10">
+        <span> What is your <i class="text-teal-400">age</i>? </span>
+        {#if validationErrors.age10?.required}
+          <span class="text-error-300">This field is required</span>
+        {/if}
+        <div
+          class={`space-y-2 ${validationErrors.age10?.required && "text-error-300"}`}
+        >
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="age10" value="1" />
+            <p>{"<"} 18</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="age10" value="2" />
+            <p>18 - 25</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="age10" value="3" />
+            <p>25 - 40</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="age10" value="4" />
+            <p>{">"} 40</p>
+          </label>
+        </div>
+      </label>
+    </div>
+
+    <div class="card p-4">
+      <label class="label space-y-4" for="work11">
+        <span> What do you <i class="text-teal-400">work</i>? </span>
+        {#if validationErrors.work11?.required}
+          <span class="text-error-300">This field is required</span>
+        {/if}
+        <div
+          class={`space-y-2 ${validationErrors.work11?.required && "text-error-300"}`}
+        >
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="work11" value="1" />
+            <p>Student</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="work11" value="2" />
+            <p>Working</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="work11" value="3" />
+            <p>School</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="work11" value="4" />
+            <p>Other</p>
+          </label>
+        </div>
+      </label>
+    </div>
+
+    <div class="card p-4">
+      <label class="label space-y-4" for="gender12">
+        <span
+          >Which <i class="text-teal-400">gender</i> do you identify with?</span
+        >
+        {#if validationErrors.gender12?.required}
+          <span class="text-error-300">This field is required</span>
+        {/if}
+        <div
+          class={`space-y-2 ${validationErrors.gender12?.required && "text-error-300"}`}
+        >
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="gender12" value="1" />
+            <p>Diverse</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="gender12" value="2" />
+            <p>Male</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="gender12" value="3" />
+            <p>Female</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="gender12" value="4" />
+            <p>Other</p>
           </label>
         </div>
       </label>
