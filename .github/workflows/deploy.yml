@@ -19,14 +19,15 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+defaults:
+  run:
+    working-directory: packages/frontend
+
 jobs:
   build:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,11 +41,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            dist
-            .cache
-          key: ${{ runner.os }}-build-${{ hashFiles('dist') }}
-          restore-keys: |
-            ${{ runner.os }}-build-
+            ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
       - name: Install dependencies
         run: bun install
       - name: Build with Bun
