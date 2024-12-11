@@ -6,7 +6,8 @@
     "dev": "bun run --watch src/index.ts",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./build/server ./src/index.ts",
     "start": "NODE_ENV=production ./build/server",
-    "dev-db": "edgedb ui"
+    "dev-db": "edgedb ui",
+    "setup": "edgedb migrate; bunx @edgedb/generate edgeql-js"
   },
   "dependencies": {
     "@elysiajs/opentelemetry": "^1.1.7",
