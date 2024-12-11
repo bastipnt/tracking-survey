@@ -7,8 +7,6 @@ const userObject = t.Object({
   visitorId: t.String(),
 });
 
-type UserObject = typeof userObject.static;
-
 class UserHandler {
   private client: edgedb.Client;
 
@@ -95,7 +93,6 @@ export const user = (client: edgedb.Client) =>
         body: { visitorId },
         store: { session },
         cookie: { token },
-        error,
       }) => {
         let key: string;
 
@@ -104,7 +101,7 @@ export const user = (client: edgedb.Client) =>
           key = token.value;
 
           if (existingSessionUserId !== undefined) {
-            return error(400, { success: false, message: "already signed in" });
+            return { success: true, message: "already signed in" };
           }
         } else {
           key = crypto.getRandomValues(new Uint32Array(1))[0].toString();

@@ -10,6 +10,7 @@
     "setup": "edgedb migrate; bunx @edgedb/generate edgeql-js"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.1.1",
     "@elysiajs/opentelemetry": "^1.1.7",
     "edgedb": "^1.5.12",
     "elysia": "latest"

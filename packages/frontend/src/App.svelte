@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import Client from "./Client";
   import FingerprintPage from "./Pages/Fingerprint.svelte";
   import Questions from "./Pages/Questions.svelte";
   import Questions2 from "./Pages/Questions2.svelte";
@@ -12,18 +13,21 @@
   let fingerprintArr = $state<FingerprintArr>();
 
   const fingerprinter = new Fingerprinter();
+  const client = new Client();
 
-  onMount(() => {
+  const init = async () => {
     if (fingerprintArr !== undefined) return;
 
-    const createFingerprint = async () => {
-      await fingerprinter.createFingerprint();
+    await fingerprinter.createFingerprint();
+    fingerprintArr = fingerprinter.fingerprintArr;
+    const visitorId = fingerprinter.fingerprint?.fingerprintJS.visitorId;
+    if (!visitorId) return;
 
-      fingerprintArr = fingerprinter.fingerprintArr;
-    };
+    await client.signIn(visitorId);
+    await client.getAll();
+  };
 
-    createFingerprint();
-  });
+  onMount(() => init());
 
   $effect(() => {
     const anchor = Number(document.location.hash);
