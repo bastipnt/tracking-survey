@@ -19,7 +19,7 @@ const surveyPart2Params = t.Object({
   learningApproaches9: t.Array(t.String(), { minItems: 1 }),
   age10: t.String(),
   work11: t.String(),
-  gender12: t.String(),
+  pronouns12: t.String(),
 });
 
 type Survey = {

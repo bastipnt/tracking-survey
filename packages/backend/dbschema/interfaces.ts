@@ -93,11 +93,11 @@ export namespace $default {
   export interface SurveyPart2 extends std.$Object {
     "user": User;
     "age10": string;
-    "gender12": string;
     "interestInLearning8": string;
     "learningApproaches9": string[];
     "work11": string;
     "createdAt": Date;
+    "pronouns12": string;
   }
   export interface User extends std.$Object {
     "visitorId": string;

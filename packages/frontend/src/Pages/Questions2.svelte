@@ -17,7 +17,7 @@
     "learningApproaches9",
     "age10",
     "work11",
-    "gender12",
+    "pronouns12",
   ] as const;
 
   const VALUES9 = [
@@ -267,27 +267,53 @@
     </div>
 
     <div class="card p-4">
-      <label class="label space-y-4" for="gender12">
-        <span
-          >Which <i class="text-teal-400">gender</i> do you identify with?</span
-        >
-        {#if validationErrors.gender12?.required}
+      <label class="label space-y-4" for="pronouns12">
+        <span>What are your <i class="text-teal-400">pronouns</i>?</span>
+        {#if validationErrors.pronouns12?.required}
           <span class="text-error-300">This field is required</span>
         {/if}
         <div
-          class={`space-y-2 ${validationErrors.gender12?.required && "text-error-300"}`}
+          class={`space-y-2 ${validationErrors.pronouns12?.required && "text-error-300"}`}
         >
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="diverse" />
-            <p>Diverse</p>
+            <input
+              class="radio"
+              type="radio"
+              name="pronouns12"
+              value="She/her"
+            />
+            <p>She/her</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="male" />
-            <p>Male</p>
+            <input
+              class="radio"
+              type="radio"
+              name="pronouns12"
+              value="He/him"
+            />
+            <p>He/him</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="female" />
-            <p>Female</p>
+            <input
+              class="radio"
+              type="radio"
+              name="pronouns12"
+              value="They/them"
+            />
+            <p>They/them</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input class="radio" type="radio" name="pronouns12" value="Other" />
+            <p>Other</p>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input
+              class="radio"
+              type="radio"
+              name="pronouns12"
+              value="PreferNotToSay"
+            />
+            <p>Prefer not to say</p>
           </label>
         </div>
       </label>

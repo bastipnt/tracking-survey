@@ -57,8 +57,8 @@ module default {
     required work11: str {
       constraint one_of ("student", "working", "school", "other");
     };
-    required gender12: str {
-      constraint one_of ("diverse", "male", "female");
+    required pronouns12: str {
+      constraint one_of ("She/her", "He/him", "They/them", "Other", "PreferNotToSay");
     };
   }
 }

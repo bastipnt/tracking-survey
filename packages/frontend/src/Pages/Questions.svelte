@@ -268,32 +268,42 @@
           <span class="text-error-300">This field is required</span>
         {/if}
         <div
-          class={`grid grid-cols-5 gap-8 ${validationErrors.okToBeTracked5?.required && "text-error-300"}`}
+          class={`grid gap-2 sm:grid-cols-5 ${validationErrors.okToBeTracked5?.required && "text-error-300"}`}
         >
-          <label class="flex flex-col items-center space-y-2">
-            <p>1 (not at all)</p>
+          <label
+            class="flex flex-row items-center space-x-2 sm:flex-col sm:space-x-0 sm:space-y-2"
+          >
             <input
               class="radio m-0"
               type="radio"
               name="okToBeTracked5"
               value="1"
             />
+            <p>1 (not at all)</p>
           </label>
-          <label class="flex flex-col items-center space-y-2">
-            <p>2</p>
+          <label
+            class="flex flex-row items-center space-x-2 sm:flex-col sm:space-x-0 sm:space-y-2"
+          >
             <input class="radio" type="radio" name="okToBeTracked5" value="2" />
+            <p>2</p>
           </label>
-          <label class="flex flex-col items-center space-y-2">
-            <p>3</p>
+          <label
+            class="flex flex-row items-center space-x-2 sm:flex-col sm:space-x-0 sm:space-y-2"
+          >
             <input class="radio" type="radio" name="okToBeTracked5" value="3" />
+            <p>3</p>
           </label>
-          <label class="flex flex-col items-center space-y-2">
-            <p>4</p>
+          <label
+            class="flex flex-row items-center space-x-2 sm:flex-col sm:space-x-0 sm:space-y-2"
+          >
             <input class="radio" type="radio" name="okToBeTracked5" value="4" />
+            <p>4</p>
           </label>
-          <label class="flex flex-col items-center space-y-2">
-            <p>5 (very much)</p>
+          <label
+            class="flex flex-row items-center space-x-2 sm:flex-col sm:space-x-0 sm:space-y-2"
+          >
             <input class="radio" type="radio" name="okToBeTracked5" value="5" />
+            <p>5 (very much)</p>
           </label>
         </div>
       </label>
@@ -329,11 +339,13 @@
           </label>
         </div>
       </label>
-      If yes...
+    </div>
+
+    <div class="card p-4">
       <label for="trackingMethodsFamiliar7" class="label space-y-4">
         <span
           >Which of the following <i class="text-teal-400">tracking methods</i>
-          are you familiar with?
+          have you heared of?
           <span class="text-white text-opacity-40"
             >(multiple answers possible)</span
           ></span
