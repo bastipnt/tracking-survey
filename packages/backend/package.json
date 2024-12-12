@@ -4,13 +4,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./build/server ./src/index.ts",
+    "build": "NODE_ENV=production bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./build/server ./src/index.ts",
     "start": "NODE_ENV=production ./build/server",
     "dev-db": "edgedb ui"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",
     "@elysiajs/opentelemetry": "^1.1.7",
+    "@elysiajs/static": "^1.1.1",
     "edgedb": "^1.5.12",
     "elysia": "latest"
   },
