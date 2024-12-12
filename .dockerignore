@@ -25,7 +25,7 @@
 **/*.sln
 **/*.sw?
 
-**/packages/backend/dbschema/edgeql-js
+# **/packages/backend/dbschema/edgeql-js
 
 # flyctl launch added from node_modules/tailwindcss/stubs/.gitignore
 !node_modules/tailwindcss/stubs/**/*
