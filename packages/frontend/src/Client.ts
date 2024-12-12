@@ -10,9 +10,11 @@ export type SurveyParams1 = Omit<SurveyPart1, "user" | "id" | "createdAt">;
 export type SurveyParams2 = Omit<SurveyPart2, "user" | "id" | "createdAt">;
 export type FingerprintParams = Omit<Fingerprint, "user" | "id" | "createdAt">;
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL ?? "localhost:3000";
+
 export default class Client {
   private signedIn = false;
-  private app = treaty<App>("localhost:3000", {
+  private app = treaty<App>(backendUrl, {
     fetch: {
       credentials: "include",
     },
