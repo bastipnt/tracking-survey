@@ -2,13 +2,7 @@ import FingerprintJS, { type GetResult } from "@fingerprintjs/fingerprintjs";
 import type { VPNDetectionValuesStrings } from "./VPNDetection";
 import VPNDetection from "./VPNDetection";
 
-export type Fingerprint = {
-  fingerprintJS: GetResult;
-  additional: {
-    vpnDetection: VPNDetectionValuesStrings;
-  };
-  visitorId: string;
-};
+export type Fingerprint = GetResult;
 
 export type FingerprintArr = {
   name: string;
@@ -20,48 +14,37 @@ export default class Fingerprinter {
 
   async createFingerprint() {
     const fingerprintJS = await this.createFingerprintJSFingerprint();
-    const vpnDetection = new VPNDetection().getValue();
 
-    this.fingerprint = {
-      fingerprintJS,
-      additional: {
-        vpnDetection,
-      },
-      visitorId: "",
-    };
+    this.fingerprint = fingerprintJS;
   }
 
   get fingerprintArr(): FingerprintArr {
     if (!this.fingerprint) return [];
 
-    const fingerprintArr = Object.entries(
-      this.fingerprint.fingerprintJS.components,
-    ).map(([componentName, component]) => {
-      const name = componentName;
-      let value;
+    const fingerprintArr = Object.entries(this.fingerprint.components).map(
+      ([componentName, component]) => {
+        const name = componentName;
+        let value;
 
-      if ("value" in component) value = component.value;
+        if ("value" in component) value = component.value;
 
-      if (value && typeof value === "object") value = "Object";
+        if (value && typeof value === "object") value = "Object";
 
-      if (value === undefined || value === "") value = "Unknown";
+        if (value === undefined || value === "") value = "Unknown";
 
-      return {
-        name,
-        value,
-      };
-    });
+        return {
+          name,
+          value,
+        };
+      },
+    );
 
     return [
       {
         name: "Your Visitor-ID",
-        value: this.fingerprint.fingerprintJS.visitorId,
+        value: this.fingerprint.visitorId,
       },
       ...fingerprintArr,
-      {
-        name: "vpnDetection",
-        value: this.fingerprint.additional.vpnDetection,
-      },
     ];
   }
 

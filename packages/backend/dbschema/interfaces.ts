@@ -74,21 +74,40 @@ export namespace cfg {
   }
 }
 export namespace $default {
+  export interface Fingerprint extends std.$Object {
+    "user": User;
+    "components": unknown;
+    "createdAt": Date;
+  }
+  export interface SurveyPart1 extends std.$Object {
+    "user": User;
+    "IAmTrackedKnowledge4": string;
+    "howDoAdvertisersKnow2": string;
+    "knowledgeHowTracking6": string;
+    "knowledgeTargetedAds3": string;
+    "numLastWeeksAds1": string;
+    "okToBeTracked5": string;
+    "trackingMethodsFamiliar7": string[];
+    "createdAt": Date;
+  }
+  export interface SurveyPart2 extends std.$Object {
+    "user": User;
+    "age10": string;
+    "gender12": string;
+    "interestInLearning8": string;
+    "learningApproaches9": string[];
+    "work11": string;
+    "createdAt": Date;
+  }
   export interface User extends std.$Object {
     "visitorId": string;
-  }
-  export interface fingerprint extends std.$Object {
-    "user"?: User | null;
-    "values"?: unknown | null;
-  }
-  export interface survey extends std.$Object {
-    "user"?: User | null;
-    "answers"?: unknown | null;
+    "createdAt": Date;
   }
 }
+export type Fingerprint = $default.Fingerprint;
+export type SurveyPart1 = $default.SurveyPart1;
+export type SurveyPart2 = $default.SurveyPart2;
 export type User = $default.User;
-export type fingerprint = $default.fingerprint;
-export type survey = $default.survey;
 export namespace fts {
   export type ElasticLanguage = "ara" | "bul" | "cat" | "ces" | "ckb" | "dan" | "deu" | "ell" | "eng" | "eus" | "fas" | "fin" | "fra" | "gle" | "glg" | "hin" | "hun" | "hye" | "ind" | "ita" | "lav" | "nld" | "nor" | "por" | "ron" | "rus" | "spa" | "swe" | "tha" | "tur" | "zho" | "edb_Brazilian" | "edb_ChineseJapaneseKorean";
   export type Language = "ara" | "hye" | "eus" | "cat" | "dan" | "nld" | "eng" | "fin" | "fra" | "deu" | "ell" | "hin" | "hun" | "ind" | "gle" | "ita" | "nor" | "por" | "ron" | "rus" | "spa" | "swe" | "tur";
@@ -350,9 +369,10 @@ export interface types {
     "mTLS": cfg.mTLS;
   };
   "default": {
+    "Fingerprint": $default.Fingerprint;
+    "SurveyPart1": $default.SurveyPart1;
+    "SurveyPart2": $default.SurveyPart2;
     "User": $default.User;
-    "fingerprint": $default.fingerprint;
-    "survey": $default.survey;
   };
   "fts": {
     "ElasticLanguage": fts.ElasticLanguage;

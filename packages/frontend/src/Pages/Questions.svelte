@@ -1,12 +1,18 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
+  import type { SurveyParams1 } from "../Client";
 
   type Props = {
     handleNext: () => void;
     handleTransitionFinished: () => void;
+    submitSurvey: (params: SurveyParams1) => Promise<boolean>;
   };
 
-  const FORM_FIELD_NAMES = [
+  let { handleNext, handleTransitionFinished, submitSurvey }: Props = $props();
+
+  type FormFieldName = keyof SurveyParams1;
+
+  const FORM_FIELD_NAMES: FormFieldName[] = [
     "numLastWeeksAds1",
     "howDoAdvertisersKnow2",
     "knowledgeTargetedAds3",
@@ -16,37 +22,70 @@
     "trackingMethodsFamiliar7",
   ] as const;
 
+  const VALUES7 = [
+    "ip-address",
+    "cookie",
+    "tracking-pixels",
+    "tracking-links",
+    "browser-fingerprinting",
+  ] as const;
+
   type ValidationErrors = {
     [K in (typeof FORM_FIELD_NAMES)[number]]: {
       required: boolean;
     };
   };
 
-  let { handleNext, handleTransitionFinished }: Props = $props();
-
   let validationErrors = $state<Partial<ValidationErrors>>({});
 
-  const validateForm = (formData: FormData): boolean => {
-    validationErrors = Object.values(FORM_FIELD_NAMES).reduce(
-      (oldErrors, formFieldName) => {
-        const value = formData.get(formFieldName);
-        if (formFieldName !== "trackingMethodsFamiliar7" && value === null)
-          return { ...oldErrors, [formFieldName]: { required: true } };
-        return oldErrors;
-      },
-      {},
-    );
+  const parseCheckboxes = (
+    formData: FormData,
+    baseName: string,
+    ceckboxNames: readonly string[],
+  ): string[] =>
+    ceckboxNames.reduce<string[]>((prevValues, parameterName) => {
+      const currValue = formData.get(`${baseName}.${parameterName}`);
 
+      if (currValue === "on") return [...prevValues, parameterName];
+
+      return prevValues;
+    }, []);
+
+  const parseForm = (formData: FormData): SurveyParams1 => {
+    validationErrors = {};
+
+    return FORM_FIELD_NAMES.reduce((prevParams, formFieldName) => {
+      let value: FormDataEntryValue | string[] | null;
+
+      if (formFieldName === "trackingMethodsFamiliar7") {
+        value = parseCheckboxes(formData, formFieldName, VALUES7);
+      } else {
+        value = formData.get(formFieldName);
+      }
+
+      if (formFieldName !== "trackingMethodsFamiliar7" && value === null) {
+        validationErrors[formFieldName] = { required: true };
+      }
+
+      return { ...prevParams, [formFieldName]: value };
+    }, {} as SurveyParams1);
+  };
+
+  const validateForm = (): boolean => {
     return Object.values(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!e.target) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
+    const parsedData = parseForm(formData);
 
-    if (!validateForm(formData)) return;
+    if (!validateForm()) return;
+
+    const submited = await submitSurvey(parsedData);
+    if (!submited) return;
 
     handleNext();
   };
@@ -76,7 +115,7 @@
               class="radio"
               type="radio"
               name="numLastWeeksAds1"
-              value="1"
+              value="none"
             />
             <p>Not at all</p>
           </label>
@@ -85,7 +124,7 @@
               class="radio"
               type="radio"
               name="numLastWeeksAds1"
-              value="2"
+              value="once"
             />
             <p>Maybe once</p>
           </label>
@@ -94,7 +133,7 @@
               class="radio"
               type="radio"
               name="numLastWeeksAds1"
-              value="3"
+              value="sometimes"
             />
             <p>More than once</p>
           </label>
@@ -103,7 +142,7 @@
               class="radio"
               type="radio"
               name="numLastWeeksAds1"
-              value="3"
+              value="often"
             />
             <p>A lot</p>
           </label>
@@ -128,7 +167,7 @@
               class="radio"
               type="radio"
               name="howDoAdvertisersKnow2"
-              value="1"
+              value="no"
             />
             <p>No, how do they do that?</p>
           </label>
@@ -137,7 +176,7 @@
               class="radio"
               type="radio"
               name="howDoAdvertisersKnow2"
-              value="2"
+              value="yes"
             />
             <p>Yes, I know.</p>
           </label>
@@ -163,7 +202,7 @@
               class="radio"
               type="radio"
               name="knowledgeTargetedAds3"
-              value="1"
+              value="no"
             />
             <p>Not really</p>
           </label>
@@ -172,7 +211,7 @@
               class="radio"
               type="radio"
               name="knowledgeTargetedAds3"
-              value="2"
+              value="yes"
             />
             <p>Yes!</p>
           </label>
@@ -198,7 +237,7 @@
               class="radio"
               type="radio"
               name="IAmTrackedKnowledge4"
-              value="1"
+              value="no"
             />
             <p>Not I didn't know :(</p>
           </label>
@@ -207,7 +246,7 @@
               class="radio"
               type="radio"
               name="IAmTrackedKnowledge4"
-              value="2"
+              value="yes"
             />
             <p>Yes...</p>
           </label>
@@ -275,7 +314,7 @@
               class="radio"
               type="radio"
               name="knowledgeHowTracking6"
-              value="1"
+              value="no"
             />
             <p>No, I don't know :(</p>
           </label>
@@ -284,7 +323,7 @@
               class="radio"
               type="radio"
               name="knowledgeHowTracking6"
-              value="2"
+              value="yes"
             />
             <p>Yes!</p>
           </label>
@@ -309,7 +348,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="trackingMethodsFamiliar7"
+              name="trackingMethodsFamiliar7.ip-address"
             />
             <p>IP-Adress Tracking</p>
           </label>
@@ -317,7 +356,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="trackingMethodsFamiliar7"
+              name="trackingMethodsFamiliar7.cookie"
             />
             <p>Cookie based tracking</p>
           </label>
@@ -325,7 +364,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="trackingMethodsFamiliar7"
+              name="trackingMethodsFamiliar7.tracking-pixels"
             />
             <p>Tracking Pixels (Web Beacons)</p>
           </label>
@@ -333,7 +372,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="trackingMethodsFamiliar7"
+              name="trackingMethodsFamiliar7.tracking-links"
             />
             <p>Tracking Links</p>
           </label>
@@ -341,7 +380,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="trackingMethodsFamiliar7"
+              name="trackingMethodsFamiliar7.browser-fingerprinting"
             />
             <p>Browser Fingerprinting</p>
           </label>

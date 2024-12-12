@@ -1,19 +1,30 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
+  import type { SurveyParams2 } from "../Client";
 
   type Props = {
     handleNext: () => void;
     handleTransitionFinished: () => void;
+    submitSurvey: (params: SurveyParams2) => Promise<boolean>;
   };
 
-  let { handleNext, handleTransitionFinished }: Props = $props();
+  let { handleNext, handleTransitionFinished, submitSurvey }: Props = $props();
 
-  const FORM_FIELD_NAMES = [
+  type FormFieldName = keyof SurveyParams2;
+
+  const FORM_FIELD_NAMES: FormFieldName[] = [
     "interestInLearning8",
     "learningApproaches9",
     "age10",
     "work11",
     "gender12",
+  ] as const;
+
+  const VALUES9 = [
+    "reading-technical",
+    "reading-non-technical",
+    "video",
+    "art",
   ] as const;
 
   type ValidationErrors = {
@@ -24,27 +35,54 @@
 
   let validationErrors = $state<Partial<ValidationErrors>>({});
 
-  const validateForm = (formData: FormData): boolean => {
-    validationErrors = Object.values(FORM_FIELD_NAMES).reduce(
-      (oldErrors, formFieldName) => {
-        const value = formData.get(formFieldName);
-        if (value === null)
-          return { ...oldErrors, [formFieldName]: { required: true } };
-        return oldErrors;
-      },
-      {},
-    );
+  const parseCheckboxes = (
+    formData: FormData,
+    baseName: string,
+    ceckboxNames: readonly string[],
+  ): string[] =>
+    ceckboxNames.reduce<string[]>((prevValues, parameterName) => {
+      const currValue = formData.get(`${baseName}.${parameterName}`);
 
+      if (currValue === "on") return [...prevValues, parameterName];
+
+      return prevValues;
+    }, []);
+
+  const parseForm = (formData: FormData): SurveyParams2 => {
+    validationErrors = {};
+
+    return FORM_FIELD_NAMES.reduce((prevParams, formFieldName) => {
+      let value: FormDataEntryValue | string[] | null;
+
+      if (formFieldName === "learningApproaches9") {
+        value = parseCheckboxes(formData, formFieldName, VALUES9);
+      } else {
+        value = formData.get(formFieldName);
+      }
+
+      if (value === null || value.length === 0) {
+        validationErrors[formFieldName] = { required: true };
+      }
+
+      return { ...prevParams, [formFieldName]: value };
+    }, {} as SurveyParams2);
+  };
+
+  const validateForm = (): boolean => {
     return Object.values(validationErrors).length === 0;
   };
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
     if (!e.target) return;
 
     const formData = new FormData(e.target as HTMLFormElement);
+    const parsedData = parseForm(formData);
 
-    if (!validateForm(formData)) return;
+    if (!validateForm()) return;
+
+    const submited = await submitSurvey(parsedData);
+    if (!submited) return;
 
     handleNext();
   };
@@ -74,7 +112,7 @@
               class="radio"
               type="radio"
               name="interestInLearning8"
-              value="1"
+              value="yes"
             />
             <p>Yes, very much!</p>
           </label>
@@ -83,7 +121,7 @@
               class="radio"
               type="radio"
               name="interestInLearning8"
-              value="2"
+              value="kinda"
             />
             <p>
               Yes, but don't know if I would understand that technical stuff.
@@ -94,7 +132,7 @@
               class="radio"
               type="radio"
               name="interestInLearning8"
-              value="3"
+              value="no"
             />
             <p>I don't really care...</p>
           </label>
@@ -123,7 +161,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="learningApproaches9"
+              name="learningApproaches9.reading-technical"
             />
             <p>
               Reading a <i class="text-teal-400">technical text</i> about it
@@ -133,7 +171,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="learningApproaches9"
+              name="learningApproaches9.reading-non-technical"
             />
             <p>
               Reading a <i class="text-teal-400">simple less technical text</i> about
@@ -144,7 +182,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="learningApproaches9"
+              name="learningApproaches9.video"
             />
             <p>Watching an <i class="text-teal-400">explanation video</i></p>
           </label>
@@ -152,7 +190,7 @@
             <input
               class="checkbox"
               type="checkbox"
-              name="learningApproaches9"
+              name="learningApproaches9.art"
             />
             <p>Learning through an <i class="text-teal-400">art project</i></p>
           </label>
@@ -170,19 +208,29 @@
           class={`space-y-2 ${validationErrors.age10?.required && "text-error-300"}`}
         >
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="age10" value="1" />
+            <input
+              class="radio"
+              type="radio"
+              name="age10"
+              value="less-than-18"
+            />
             <p>{"<"} 18</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="age10" value="2" />
+            <input class="radio" type="radio" name="age10" value="18-25" />
             <p>18 - 25</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="age10" value="3" />
+            <input class="radio" type="radio" name="age10" value="25-40" />
             <p>25 - 40</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="age10" value="4" />
+            <input
+              class="radio"
+              type="radio"
+              name="age10"
+              value="more-than-40"
+            />
             <p>{">"} 40</p>
           </label>
         </div>
@@ -199,19 +247,19 @@
           class={`space-y-2 ${validationErrors.work11?.required && "text-error-300"}`}
         >
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="work11" value="1" />
+            <input class="radio" type="radio" name="work11" value="student" />
             <p>Student</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="work11" value="2" />
+            <input class="radio" type="radio" name="work11" value="working" />
             <p>Working</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="work11" value="3" />
+            <input class="radio" type="radio" name="work11" value="school" />
             <p>School</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="work11" value="4" />
+            <input class="radio" type="radio" name="work11" value="other" />
             <p>Other</p>
           </label>
         </div>
@@ -230,20 +278,16 @@
           class={`space-y-2 ${validationErrors.gender12?.required && "text-error-300"}`}
         >
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="1" />
+            <input class="radio" type="radio" name="gender12" value="diverse" />
             <p>Diverse</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="2" />
+            <input class="radio" type="radio" name="gender12" value="male" />
             <p>Male</p>
           </label>
           <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="3" />
+            <input class="radio" type="radio" name="gender12" value="female" />
             <p>Female</p>
-          </label>
-          <label class="flex items-center space-x-2">
-            <input class="radio" type="radio" name="gender12" value="4" />
-            <p>Other</p>
           </label>
         </div>
       </label>

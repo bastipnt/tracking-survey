@@ -2,8 +2,9 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 import { edgedb } from "../dbschema/edgeql-js/imports";
-import { survey } from "./Survey";
-import { user } from "./user";
+import { fingerprintRoutes } from "./fingerprint";
+import { surveyRoutes } from "./survey";
+import { userRoutes } from "./user";
 
 const client = edgedb.createClient();
 
@@ -17,8 +18,9 @@ const app = new Elysia()
     }),
   )
   .get("/", () => "Hello Elysia")
-  .use(user(client))
-  .use(survey(client))
+  .use(userRoutes(client))
+  .use(surveyRoutes(client))
+  .use(fingerprintRoutes(client))
   .listen(3000);
 
 console.log(

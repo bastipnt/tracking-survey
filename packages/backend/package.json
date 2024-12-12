@@ -6,8 +6,7 @@
     "dev": "bun run --watch src/index.ts",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./build/server ./src/index.ts",
     "start": "NODE_ENV=production ./build/server",
-    "dev-db": "edgedb ui",
-    "setup": "edgedb migrate; bunx @edgedb/generate edgeql-js"
+    "dev-db": "edgedb ui"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.1.1",

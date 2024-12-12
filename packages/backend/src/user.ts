@@ -2,7 +2,7 @@ import Elysia, { t } from "elysia";
 import e from "../dbschema/edgeql-js";
 import { type edgedb } from "../dbschema/edgeql-js/imports";
 
-const userObject = t.Object({
+const userModel = t.Object({
   id: t.String(),
   visitorId: t.String(),
 });
@@ -25,9 +25,11 @@ class UserHandler {
   }
 
   async create(visitorId: string): Promise<string> {
-    const result = await e.insert(e.User, { visitorId }).run(this.client);
+    const createdAt = new Date();
+    const result = await e
+      .insert(e.User, { visitorId, createdAt })
+      .run(this.client);
 
-    console.log(JSON.stringify(result, null, 2));
     return result.id;
   }
 }
@@ -37,7 +39,7 @@ export const userService = new Elysia({ name: "user/service" })
     session: {} as Record<string, string>,
   })
   .model({
-    userParams: t.Omit(userObject, ["id"]),
+    userModelPart: t.Omit(userModel, ["id"]),
     session: t.Cookie(
       {
         token: t.String(),
@@ -82,7 +84,7 @@ export const getUser = new Elysia()
   }))
   .as("plugin");
 
-export const user = (client: edgedb.Client) =>
+export const userRoutes = (client: edgedb.Client) =>
   new Elysia({ prefix: "/user" })
     .use(userService)
     .decorate("userHandler", new UserHandler(client))
@@ -123,7 +125,7 @@ export const user = (client: edgedb.Client) =>
 
         return { success: true, message: "created" };
       },
-      { body: "userParams", cookie: "optionalSession" },
+      { body: "userModelPart", cookie: "optionalSession" },
     )
     .get(
       "/sign-out",

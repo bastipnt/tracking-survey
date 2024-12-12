@@ -1,76 +1,127 @@
 import Elysia, { t } from "elysia";
 import e from "../dbschema/edgeql-js";
 import { type edgedb } from "../dbschema/edgeql-js/imports";
+import { SurveyPart1, SurveyPart2 } from "../dbschema/interfaces";
 import { getUser, userService } from "./user";
 
-const question = t.Object({
-  question: t.String(),
-  value: t.String(),
+const surveyPart1Params = t.Object({
+  numLastWeeksAds1: t.String(),
+  howDoAdvertisersKnow2: t.String(),
+  knowledgeTargetedAds3: t.String(),
+  IAmTrackedKnowledge4: t.String(),
+  okToBeTracked5: t.String(),
+  knowledgeHowTracking6: t.String(),
+  trackingMethodsFamiliar7: t.Array(t.String()),
 });
 
-const surveyPart = t.Object({
-  part: t.Number(),
-  userId: t.String(),
-  questions: t.Array(question),
+const surveyPart2Params = t.Object({
+  interestInLearning8: t.String(),
+  learningApproaches9: t.Array(t.String(), { minItems: 1 }),
+  age10: t.String(),
+  work11: t.String(),
+  gender12: t.String(),
 });
 
-type SurveyPart = typeof surveyPart.static;
+type Survey = {
+  id: string;
+  visitorId: string;
+  surveyPart1: Omit<SurveyPart1, "user"> | null;
+  surveyPart2: Omit<SurveyPart2, "user"> | null;
+};
 
-class Survey {
-  client: edgedb.Client;
+class SurveyController {
+  private client: edgedb.Client;
 
   constructor(client: edgedb.Client) {
     this.client = client;
   }
 
-  async add(
+  async addPart1(
     userId: string,
-    surveyPartParams: Omit<SurveyPart, "userId">,
+    surveyParams: Omit<SurveyPart1, "user" | "id" | "createdAt">,
   ): Promise<string> {
+    const createdAt = new Date();
     const result = await e
-      .insert(e.Survey, {
+      .insert(e.SurveyPart1, {
         user: e.select(e.User, () => ({
           filter_single: { id: userId },
         })),
-        answers: surveyPartParams.questions,
+        ...surveyParams,
+        createdAt,
       })
       .run(this.client);
 
     return result.id;
   }
 
-  async getAll(): Promise<SurveyPart[]> {
+  async addPart2(
+    userId: string,
+    surveyParams: Omit<SurveyPart2, "user" | "id" | "createdAt">,
+  ): Promise<string> {
+    const createdAt = new Date();
     const result = await e
-      .select(e.Survey, (survey) => ({
-        userId: survey.id,
-        questions: survey.answers,
-        part: e.int16(1),
+      .insert(e.SurveyPart2, {
+        user: e.select(e.User, () => ({
+          filter_single: { id: userId },
+        })),
+        ...surveyParams,
+        learningApproaches9: surveyParams.learningApproaches9 as [
+          string,
+          ...string[],
+        ],
+        createdAt,
+      })
+      .run(this.client);
+
+    return result.id;
+  }
+
+  async getAll(): Promise<Survey[]> {
+    const result = await e
+      .select(e.User, (user) => ({
+        id: true,
+        visitorId: true,
+        surveyPart1: e.select(e.SurveyPart1, (surveyPart1) => ({
+          ...e.SurveyPart1["*"],
+          user: false,
+          filter_single: e.op(user, "=", surveyPart1.user),
+        })),
+        surveyPart2: e.select(e.SurveyPart2, (surveyPart2) => ({
+          ...e.SurveyPart2["*"],
+          user: false,
+          filter_single: e.op(user, "=", surveyPart2.user),
+        })),
       }))
       .run(this.client);
 
-    console.log(result);
-
-    return result as SurveyPart[];
+    return result;
   }
 }
 
-export const survey = (client: edgedb.Client) =>
+export const surveyRoutes = (client: edgedb.Client) =>
   new Elysia({ prefix: "/survey" })
     .use(userService)
-    .decorate("surveyHandler", new Survey(client))
+    .decorate("surveyController", new SurveyController(client))
     .use(getUser)
-    .model({ surveyPart: t.Omit(surveyPart, ["userId"]) })
+    .model({ surveyPart1Params, surveyPart2Params })
     .post(
       "/1",
-      async ({ surveyHandler, body, userId }) => {
-        await surveyHandler.add(userId, body);
-
+      async ({ surveyController, body, userId }) => {
+        await surveyController.addPart1(userId, body);
         return { status: 200, message: "success" };
       },
-      { body: "surveyPart" },
+      { body: "surveyPart1Params" },
     )
-    .get("/all", async ({ surveyHandler }) => {
-      const surveys = await surveyHandler.getAll();
+    .post(
+      "/2",
+      async ({ surveyController, body, userId }) => {
+        await surveyController.addPart2(userId, body);
+        return { status: 200, message: "success" };
+      },
+      { body: "surveyPart2Params" },
+    )
+    .get("/all", async ({ surveyController }) => {
+      const surveys = await surveyController.getAll();
 
       return {
         success: true,

@@ -6,10 +6,20 @@
     handleNext: () => void;
     handleTransitionFinished: () => void;
     fingerprintArr?: FingerprintArr;
+    submitFP: () => Promise<void>;
   };
 
-  let { handleNext, handleTransitionFinished, fingerprintArr }: Props =
-    $props();
+  let {
+    handleNext,
+    handleTransitionFinished,
+    fingerprintArr,
+    submitFP,
+  }: Props = $props();
+
+  const handleNextAndSubmitFP = async () => {
+    await submitFP();
+    handleNext();
+  };
 </script>
 
 <section
@@ -85,7 +95,7 @@
   {/if}
 
   <div class="flex flex-col flex-wrap justify-end gap-4 md:flex-row">
-    <button class="variant-filled btn" onclick={handleNext}
+    <button class="variant-filled btn" onclick={handleNextAndSubmitFP}
       >Ok, you can use my browser data</button
     >
     <button class="variant-filled btn" onclick={handleNext}
