@@ -92,8 +92,16 @@
   in:fly={{ x: 200, duration: 500, delay: 0.001 }}
   out:fly={{ x: -200, duration: 100 }}
   onoutroend={handleTransitionFinished}
+  class="my-8"
 >
   <form class="flex flex-col gap-8" onsubmit={handleSubmit}>
+    <div
+      class="sm: flex flex-wrap justify-center gap-4 p-4 text-center text-4xl sm:justify-start sm:text-left"
+    >
+      <span>✨</span>
+      <h1>About you</h1>
+    </div>
+
     <div class="card p-4">
       <label class="label space-y-4" for="interestInLearning8">
         <span>
@@ -260,7 +268,7 @@
           </label>
           <label class="flex items-center space-x-2">
             <input class="radio" type="radio" name="work11" value="other" />
-            <p>Other</p>
+            <p>Something else ...</p>
           </label>
         </div>
       </label>
@@ -319,7 +327,7 @@
       </label>
     </div>
 
-    <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">
+    <div class="flex flex-col flex-wrap justify-end gap-4 md:flex-row">
       <button class="variant-filled btn" type="submit" name="submit"
         >Next</button
       >

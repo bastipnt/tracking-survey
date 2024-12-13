@@ -9,6 +9,11 @@ import { userRoutes } from "./user";
 const isProd = process.env.NODE_ENV === "production";
 const client = edgedb.createClient();
 
+const sharedRoutes = new Elysia()
+  .use(userRoutes(client))
+  .use(surveyRoutes(client))
+  .use(fingerprintRoutes(client));
+
 let app;
 
 if (isProd) {
@@ -20,9 +25,7 @@ if (isProd) {
       }),
     )
     .get("/", () => Bun.file("dist/index.html"))
-    .use(userRoutes(client))
-    .use(surveyRoutes(client))
-    .use(fingerprintRoutes(client))
+    .use(sharedRoutes)
     .listen(3000);
 } else {
   app = new Elysia()
@@ -34,9 +37,7 @@ if (isProd) {
       }),
     )
     .get("/", () => "hello")
-    .use(userRoutes(client))
-    .use(surveyRoutes(client))
-    .use(fingerprintRoutes(client))
+    .use(sharedRoutes)
     .listen(3000);
 }
 

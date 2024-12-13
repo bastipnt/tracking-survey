@@ -10,35 +10,64 @@
 </script>
 
 <div
-  class="card space-y-2 p-4"
+  class="my-8 space-y-8"
   out:fly={{ x: -200, duration: 100 }}
   onoutroend={handleTransitionFinished}
 >
-  <h1 class="mb-8 text-2xl text-teal-400">
-    Hello there, thanks for taking this survey!
-  </h1>
-  <p>
-    It will take <i class="text-teal-400">~2 mins</i> and will help me to better
-    understand how much knowledge people have about tracking on the internet.
-  </p>
-  <p>
-    The <i class="text-teal-400">data</i> you provide will be part of my masters
-    thesis.
-  </p>
-  <p>
-    All the <i class="text-teal-400">data</i> collected will be handled with care
-    and in a way that individuals are not identifiable.
-  </p>
-  <p>
-    In the first part there will be some questions regarding <i
-      class="text-teal-400">advertisement</i
+  <div
+    class="sm: flex flex-wrap justify-center gap-4 p-4 text-center text-4xl sm:justify-start sm:text-left"
+  >
+    <h1 class="text-4xl">Hello there 👋</h1>
+  </div>
+
+  <div class="card">
+    <header class="card-header">
+      <h2 class="text-2xl text-teal-400">
+        This is a survey about advertisement and tracking ...
+      </h2>
+    </header>
+
+    <section class="space-y-2 p-4">
+      <p>
+        🕐 It will take <i class="text-teal-400">~2 mins</i> and will help me to
+        better understand how much knowledge people have about tracking on the internet.
+      </p>
+      <p>
+        📝 The <i class="text-teal-400">data</i> you provide will be part of my masters
+        thesis.
+      </p>
+      <p>
+        😎 Everything I collect with this study is <i class="text-teal-400"
+          >stored anonymously</i
+        >.
+      </p>
+    </section>
+  </div>
+
+  <div class="card">
+    <header class="card-header">
+      <h3 class="text-2xl text-teal-400">Structure</h3>
+    </header>
+    <section class="space-y-2 p-4">
+      <ol class="space-y-2">
+        <li>
+          🕵️‍♀️ Questions about <i class="text-teal-400"
+            >advertisement and tracking</i
+          >
+        </li>
+        <li>✨ Questions about <i class="text-teal-400">you</i></li>
+        <li>
+          💻 Your personal device fingerprint <span class="text-surface-400"
+            >(will be explained later)</span
+          >
+        </li>
+      </ol>
+    </section>
+  </div>
+
+  <div class="flex flex-col flex-wrap justify-end gap-4 md:flex-row">
+    <button class="variant-filled btn" onclick={handleNext}
+      >Let's get started</button
     >
-    and
-    <i class="text-teal-400">tracking</i>. In the second (optional) part I would
-    like to collect some information about your browser to better understand how
-    tracking companies track you.
-  </p>
-  <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">
-    <button class="variant-filled btn" onclick={handleNext}>Next</button>
   </div>
 </div>

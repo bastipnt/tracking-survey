@@ -95,8 +95,16 @@
   in:fly={{ x: 200, duration: 500, delay: 0.001 }}
   out:fly={{ x: -200, duration: 100 }}
   onoutroend={handleTransitionFinished}
+  class="my-8"
 >
   <form class="flex flex-col gap-8" onsubmit={handleSubmit}>
+    <div
+      class="sm: flex flex-wrap justify-center gap-4 p-4 text-center text-4xl sm:justify-start sm:text-left"
+    >
+      <span>🕵️‍♀️</span>
+      <h1>Advertisement and tracking</h1>
+    </div>
+
     <div class="card p-4">
       <label class="label space-y-4" for="numLastWeeksAds1">
         <span>
@@ -400,7 +408,7 @@
       </label>
     </div>
 
-    <div class="flex flex-col flex-wrap justify-end gap-4 pt-8 md:flex-row">
+    <div class="flex flex-col flex-wrap justify-end gap-4 md:flex-row">
       <button class="variant-filled btn" type="submit" name="submit"
         >Next</button
       >

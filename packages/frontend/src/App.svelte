@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import Client, { type FingerprintParams } from "./Client";
   import FingerprintPage from "./Pages/Fingerprint.svelte";
-  import FingerprintPage2 from "./Pages/Fingerprint2.svelte";
   import Questions from "./Pages/Questions.svelte";
   import Questions2 from "./Pages/Questions2.svelte";
   import Thanks from "./Pages/Thanks.svelte";
@@ -40,7 +39,8 @@
     if (page === 0) {
       fingerprinter.createFingerprint();
     }
-    if (page >= 5) return (page = 5);
+    if (page >= 4) return (page = 4);
+    window.scrollTo(0, 0);
     transitioning = page;
     page++;
   };
@@ -74,15 +74,13 @@
       submitSurvey={client.submitPart2}
     />
   {:else if page === 3 && transitioning !== 2}
-    <FingerprintPage {handleNext} {handleTransitionFinished} />
-  {:else if page === 4 && transitioning !== 3}
-    <FingerprintPage2
+    <FingerprintPage
       {handleNext}
       {handleTransitionFinished}
       {fingerprintArr}
       {submitFP}
     />
-  {:else if page === 5 && transitioning !== 4}
+  {:else if page === 4 && transitioning !== 3}
     <Thanks />
   {/if}
 </main>
