@@ -13,9 +13,7 @@ module default {
   }
 
   type SurveyPart1 {
-    required user: User {
-      constraint exclusive;
-    };
+    required user: User;
     required createdAt: datetime;
     required numLastWeeksAds1: str {
       constraint one_of ("none", "once", "sometimes", "often");
@@ -41,9 +39,7 @@ module default {
   }
 
   type SurveyPart2 {
-    required user: User {
-      constraint exclusive;
-    };
+    required user: User;
     required createdAt: datetime;
     required interestInLearning8: str {
       constraint one_of ("yes", "kinda", "no");

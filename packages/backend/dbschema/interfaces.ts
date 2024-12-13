@@ -80,7 +80,6 @@ export namespace $default {
     "createdAt": Date;
   }
   export interface SurveyPart1 extends std.$Object {
-    "user": User;
     "IAmTrackedKnowledge4": string;
     "howDoAdvertisersKnow2": string;
     "knowledgeHowTracking6": string;
@@ -89,15 +88,16 @@ export namespace $default {
     "okToBeTracked5": string;
     "trackingMethodsFamiliar7": string[];
     "createdAt": Date;
+    "user": User;
   }
   export interface SurveyPart2 extends std.$Object {
-    "user": User;
     "age10": string;
     "interestInLearning8": string;
     "learningApproaches9": string[];
     "work11": string;
     "createdAt": Date;
     "pronouns12": string;
+    "user": User;
   }
   export interface User extends std.$Object {
     "visitorId": string;
