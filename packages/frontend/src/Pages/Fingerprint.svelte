@@ -81,6 +81,14 @@
     <div class="card overflow-hidden">
       <header class="card-header p-4">
         <h2 class="text-2xl">Your Device Fingerprint</h2>
+        <p class="text-surface-400">
+          Created with the help of <a
+            class="underline"
+            href="https://fingerprint.com/"
+            target="_blank"
+            rel="noopener noreferrer">https://fingerprint.com</a
+          >
+        </p>
       </header>
       <section class="pt-4">
         <ul
