@@ -68,6 +68,11 @@
           >Device Fingerprint</i
         >.
       </p>
+      <p>
+        If you want to learn more about the different <i class="text-teal-400"
+          >attributes</i
+        >, I will provide some ressources in the end.
+      </p>
       <p>Thank you!!! 💜</p>
     </section>
   </div>

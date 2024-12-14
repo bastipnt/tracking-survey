@@ -195,9 +195,10 @@
     <div class="card p-4">
       <label for="knowledgeTargetedAds3" class="label space-y-4">
         <span
-          >Do you know what <i class="text-teal-400"
-            >personalised/targeted advertisement</i
-          > is?</span
+          >Did you already hear the terms <i class="text-teal-400"
+            >personalised</i
+          >
+          or <i class="text-teal-400">targeted advertisement</i>?</span
         >
         {#if validationErrors.knowledgeTargetedAds3?.required}
           <span class="text-error-300">This field is required</span>
@@ -247,7 +248,7 @@
               name="IAmTrackedKnowledge4"
               value="no"
             />
-            <p>Not I didn't know :(</p>
+            <p>No, I didn't know :(</p>
           </label>
           <label class="flex items-center space-x-2">
             <input
@@ -267,9 +268,9 @@
         <span
           >On a scale from <b class="text-teal-400">1</b> (not at all) to
           <b class="text-teal-400">5</b> (very much), how much would you agree
-          to the statement:<br />It is ok for me to be
+          to the statement:<br /><br />→ It is ok for me to be
           <i class="text-teal-400">tracked</i> in order to get better
-          <i class="text-teal-400">advertisement</i>
+          <i class="text-teal-400">advertisements</i>
           on products that really interest me.</span
         >
         {#if validationErrors.okToBeTracked5?.required}
@@ -402,7 +403,7 @@
               type="checkbox"
               name="trackingMethodsFamiliar7.browser-fingerprinting"
             />
-            <p>Browser Fingerprinting</p>
+            <p>Device/Browser Fingerprinting</p>
           </label>
         </div>
       </label>

@@ -21,12 +21,17 @@
     </p>
     <ul class="ml-4 list-disc underline">
       <li>
-        <a href="https://en.wikipedia.org/wiki/Device_fingerprint"
-          >https://en.wikipedia.org/wiki/Device_fingerprint</a
+        <a
+          target="_blank"
+          href="https://en.wikipedia.org/wiki/Device_fingerprint">Wikipedia</a
         >
       </li>
-      <li><a href="https://amiunique.org/">https://amiunique.org/</a></li>
-      <li><a href="https://browserleaks.com/">https://browserleaks.com/</a></li>
+      <li>
+        <a target="_blank" href="https://amiunique.org/">amiunique.org</a>
+      </li>
+      <li>
+        <a target="_blank" href="https://browserleaks.com/">browserleaks.com</a>
+      </li>
     </ul>
   </div>
 </section>

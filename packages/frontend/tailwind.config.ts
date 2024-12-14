@@ -2,6 +2,7 @@ import { join } from "path";
 import { skeleton } from "@skeletonlabs/tw-plugin";
 import forms from "@tailwindcss/forms";
 import type { Config } from "tailwindcss";
+import { myCustomTheme } from "./customTheme";
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -19,12 +20,18 @@ const config = {
       colors: {
         headingColor: "#1fb6ff",
       },
+      gridTemplateRows: {
+        layout: "1fr auto",
+      },
     },
   },
   plugins: [
     forms,
     skeleton({
-      themes: { preset: ["skeleton"] },
+      themes: {
+        // preset: ["skeleton"],
+        custom: [myCustomTheme],
+      },
     }),
   ],
 } satisfies Config;

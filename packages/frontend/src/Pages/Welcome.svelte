@@ -39,7 +39,12 @@
       <p>
         😎 Everything I collect with this study is <i class="text-teal-400"
           >stored anonymously</i
-        >.
+        > and will be deleted after 12 months.
+      </p>
+      <p>
+        🍪 In order to make this survey work, this website uses <i
+          class="text-teal-400">cookies</i
+        > to save your answers in the correct context.
       </p>
     </section>
   </div>

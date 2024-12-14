@@ -247,7 +247,9 @@
 
     <div class="card p-4">
       <label class="label space-y-4" for="work11">
-        <span> What do you <i class="text-teal-400">work</i>? </span>
+        <span>
+          What is your current <i class="text-teal-400">occupation</i>?
+        </span>
         {#if validationErrors.work11?.required}
           <span class="text-error-300">This field is required</span>
         {/if}

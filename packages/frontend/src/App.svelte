@@ -20,6 +20,9 @@
 
     await fingerprinter.createFingerprint();
     fingerprintArr = fingerprinter.fingerprintArr;
+  };
+
+  const signIn = async () => {
     const visitorId = fingerprinter.fingerprint?.visitorId;
     if (!visitorId) return;
 
@@ -36,10 +39,9 @@
   });
 
   const handleNext = () => {
-    if (page === 0) {
-      fingerprinter.createFingerprint();
-    }
+    if (page === 0) signIn();
     if (page >= 4) return (page = 4);
+
     window.scrollTo(0, 0);
     transitioning = page;
     page++;
@@ -58,29 +60,40 @@
   };
 </script>
 
-<main class="flex w-full max-w-screen-md flex-col justify-stretch p-4">
-  {#if page === 0}
-    <Welcome {handleNext} {handleTransitionFinished} />
-  {:else if page === 1 && transitioning !== 0}
-    <Questions
-      {handleNext}
-      {handleTransitionFinished}
-      submitSurvey={client.submitPart1}
-    />
-  {:else if page === 2 && transitioning !== 1}
-    <Questions2
-      {handleNext}
-      {handleTransitionFinished}
-      submitSurvey={client.submitPart2}
-    />
-  {:else if page === 3 && transitioning !== 2}
-    <FingerprintPage
-      {handleNext}
-      {handleTransitionFinished}
-      {fingerprintArr}
-      {submitFP}
-    />
-  {:else if page === 4 && transitioning !== 3}
-    <Thanks />
-  {/if}
+<main
+  class="grid-rows-layout grid min-h-screen w-full grid-flow-row items-center p-4"
+>
+  <section class="max-w-screen-md justify-self-center">
+    {#if page === 0}
+      <Welcome {handleNext} {handleTransitionFinished} />
+    {:else if page === 1 && transitioning !== 0}
+      <Questions
+        {handleNext}
+        {handleTransitionFinished}
+        submitSurvey={client.submitPart1}
+      />
+    {:else if page === 2 && transitioning !== 1}
+      <Questions2
+        {handleNext}
+        {handleTransitionFinished}
+        submitSurvey={client.submitPart2}
+      />
+    {:else if page === 3 && transitioning !== 2}
+      <FingerprintPage
+        {handleNext}
+        {handleTransitionFinished}
+        {fingerprintArr}
+        {submitFP}
+      />
+    {:else if page === 4 && transitioning !== 3}
+      <Thanks />
+    {/if}
+  </section>
+
+  <footer class="text-surface-400 mt-4 flex justify-end">
+    <p>
+      Contact: <a href="mailto:gt46nevl0@mozmail.com">Email</a> |
+      <a target="_blank" href="https://github.com/bastipnt">GitHub</a>
+    </p>
+  </footer>
 </main>
