@@ -29,7 +29,7 @@
   onoutroend={handleTransitionFinished}
 >
   <div
-    class="sm: flex flex-wrap justify-center gap-4 p-4 text-center text-4xl sm:justify-start sm:text-left"
+    class="flex-wrap justify-center gap-4 p-4 text-center text-4xl sm:flex sm:justify-start sm:text-left"
   >
     <span>💻</span>
     <h1>Device Fingerprint</h1>
