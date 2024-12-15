@@ -16,8 +16,8 @@
   <div class="card space-y-4 p-4">
     <p>
       If you are interested in reading more about <i class="text-teal-400"
-        >browser fingerprints</i
-      > and tracking here are yome links for you:
+        >device fingerprints</i
+      > and tracking, here are some links for you:
     </p>
     <ul class="ml-4 list-disc underline">
       <li>

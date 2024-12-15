@@ -195,9 +195,7 @@
     <div class="card p-4">
       <label for="knowledgeTargetedAds3" class="label space-y-4">
         <span
-          >Did you already hear the terms <i class="text-teal-400"
-            >personalised</i
-          >
+          >Have you heard of the terms <i class="text-teal-400">personalised</i>
           or <i class="text-teal-400">targeted advertisement</i>?</span
         >
         {#if validationErrors.knowledgeTargetedAds3?.required}

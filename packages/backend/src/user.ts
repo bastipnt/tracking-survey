@@ -141,8 +141,8 @@ export const userRoutes = (client: edgedb.Client) =>
         cookie: "optionalSession",
       },
     )
-    .use(getUser)
-    .get("/profile", ({ userId }) => ({
-      success: true,
-      userId,
-    }));
+    .use(getUser);
+// .get("/profile", ({ userId }) => ({
+//   success: true,
+//   userId,
+// }));

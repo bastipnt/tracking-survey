@@ -119,12 +119,12 @@ export const surveyRoutes = (client: edgedb.Client) =>
         return { status: 200, message: "success" };
       },
       { body: "surveyPart2Params" },
-    )
-    .get("/all", async ({ surveyController }) => {
-      const surveys = await surveyController.getAll();
+    );
+// .get("/all", async ({ surveyController }) => {
+//   const surveys = await surveyController.getAll();
 
-      return {
-        success: true,
-        data: surveys,
-      };
-    });
+//   return {
+//     success: true,
+//     data: surveys,
+//   };
+// });
