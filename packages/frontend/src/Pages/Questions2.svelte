@@ -230,7 +230,7 @@
           </label>
           <label class="flex items-center space-x-2">
             <input class="radio" type="radio" name="age10" value="25-40" />
-            <p>25 - 40</p>
+            <p>26 - 40</p>
           </label>
           <label class="flex items-center space-x-2">
             <input
