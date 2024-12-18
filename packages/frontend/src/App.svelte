@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Client, { type FingerprintParams } from "./Client";
-  import Meta from "./Meta.svelte";
   import FingerprintPage from "./Pages/Fingerprint.svelte";
   import Questions from "./Pages/Questions.svelte";
   import Questions2 from "./Pages/Questions2.svelte";
@@ -61,7 +60,6 @@
   };
 </script>
 
-<Meta />
 <main
   class="grid-rows-layout grid min-h-screen w-full grid-flow-row items-center p-4"
 >
