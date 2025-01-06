@@ -1,7 +1,7 @@
 import Elysia, { t } from "elysia";
-import e from "../dbschema/edgeql-js";
-import { edgedb } from "../dbschema/edgeql-js/imports";
-import { Fingerprint } from "../dbschema/interfaces";
+import e from "../../../dbschema/edgeql-js";
+import { edgedb } from "../../../dbschema/edgeql-js/imports";
+import { Fingerprint } from "../../../dbschema/interfaces";
 import { getUser, userService } from "./user";
 
 const fingerprintParams = t.Object({

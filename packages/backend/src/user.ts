@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
-import e from "../dbschema/edgeql-js";
-import { type edgedb } from "../dbschema/edgeql-js/imports";
+import e from "../../../dbschema/edgeql-js";
+import { type edgedb } from "../../../dbschema/edgeql-js/imports";
 
 const userModel = t.Object({
   id: t.String(),

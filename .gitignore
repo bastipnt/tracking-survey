@@ -24,5 +24,5 @@ dist-ssr
 *.sln
 *.sw?
 
-packages/backend/dbschema/edgeql-js
+dbschema/edgeql-js
 .env

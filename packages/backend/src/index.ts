@@ -1,7 +1,7 @@
 import { cors } from "@elysiajs/cors";
 import staticPlugin from "@elysiajs/static";
 import { Elysia } from "elysia";
-import { edgedb } from "../dbschema/edgeql-js/imports";
+import { edgedb } from "../../../dbschema/edgeql-js/imports";
 import { fingerprintRoutes } from "./fingerprint";
 import { surveyRoutes } from "./survey";
 import { userRoutes } from "./user";

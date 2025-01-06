@@ -16,6 +16,8 @@
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "./**/*.ts",
+    "src/**/*.ts",
+    "../../dbschema/**/*.ts",
+    "../shared/**/*.ts"
   ],
 }
