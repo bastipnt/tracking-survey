@@ -71,30 +71,33 @@ class SurveyController {
   }
 
   async getAll(): Promise<any> {
-    const result = await e
-      .select(e.User, (user) => ({
-        id: true,
-        visitorId: true,
-        createdAt: true,
-        surveyPart1: e.select(e.SurveyPart1, (surveyPart1) => ({
-          ...e.SurveyPart1["*"],
-          user: false,
-          filter: e.op(user, "=", surveyPart1.user),
-        })),
-        surveyPart2: e.select(e.SurveyPart2, (surveyPart2) => ({
-          ...e.SurveyPart2["*"],
-          user: false,
-          filter: e.op(user, "=", surveyPart2.user),
-        })),
-        fingerprint: e.select(e.Fingerprint, (fingerprint) => ({
-          ...e.Fingerprint["*"],
-          user: false,
-          filter: e.op(user, "=", fingerprint.user),
-        })),
-        order_by: user.createdAt,
-        filter: e.op(user.createdAt, ">=", new Date("2024-12-14")),
-      }))
-      .run(this.client);
+    const query = e.select(e.User, (user) => ({
+      id: true,
+      visitorId: true,
+      createdAt: true,
+      surveyPart1: e.select(e.SurveyPart1, (surveyPart1) => ({
+        ...e.SurveyPart1["*"],
+        user: false,
+        filter: e.op(user, "=", surveyPart1.user),
+      })),
+      surveyPart2: e.select(e.SurveyPart2, (surveyPart2) => ({
+        ...e.SurveyPart2["*"],
+        user: false,
+        filter: e.op(user, "=", surveyPart2.user),
+      })),
+      fingerprint: e.select(e.Fingerprint, (fingerprint) => ({
+        ...e.Fingerprint["*"],
+        user: false,
+        filter: e.op(user, "=", fingerprint.user),
+      })),
+      order_by: user.createdAt,
+      filter: e.op(user.createdAt, ">=", new Date("2024-12-14")),
+    }));
+
+    // console.log("Query:", query.toEdgeQL());
+    const eql = query.toEdgeQL();
+
+    const result = await query.run(this.client);
 
     const csvArr = [
       [
@@ -169,7 +172,7 @@ class SurveyController {
       csvContent += row + "\r\n";
     });
 
-    return { result, csvArr, csvContent };
+    return { result, csvArr, csvContent, eql };
   }
 }
 
@@ -178,15 +181,15 @@ export const surveyRoutes = (client: edgedb.Client) =>
     .use(userService)
     .decorate("surveyController", new SurveyController(client))
     .get("/all", async ({ surveyController, set }) => {
-      const { csvContent } = await surveyController.getAll();
-      set.headers["Content-Type"] = "data:text/csv";
+      const { csvContent, eql } = await surveyController.getAll();
+      // set.headers["Content-Type"] = "data:text/csv";
 
-      return csvContent;
+      // return csvContent;
 
-      // return {
-      //   success: true,
-      //   data: csvArr,
-      // };
+      return {
+        success: true,
+        data: eql,
+      };
     })
     .use(getUser)
     .model({ surveyPart1Params, surveyPart2Params })

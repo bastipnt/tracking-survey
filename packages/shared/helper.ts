@@ -19,3 +19,25 @@ export const mergeRows = (rows: (undefined | string)[][]): string[] => {
 
   return mergedRow;
 };
+
+export const mergeSurveyData = (
+  surveyParts: { [key: string]: string | string[] }[],
+): { [key: string]: string } =>
+  surveyParts.reduce<{ [key: string]: string }>(
+    (survey, currentPart) => {
+      const updatedSurvey = survey;
+
+      Object.keys(currentPart).forEach((key) => {
+        const currentValue =
+          (Array.isArray(currentPart[key])
+            ? currentPart[key].join("; ")
+            : currentPart[key]) ?? "";
+        if (updatedSurvey[key] === undefined) updatedSurvey[key] = currentValue;
+        else if (updatedSurvey[key].length === 0 && currentValue.length > 0)
+          updatedSurvey[key] = currentValue;
+      });
+
+      return updatedSurvey;
+    },
+    {} as { [key: string]: string },
+  );
