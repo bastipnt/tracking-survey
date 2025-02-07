@@ -28,10 +28,9 @@ export const mergeSurveyData = (
       const updatedSurvey = survey;
 
       Object.keys(currentPart).forEach((key) => {
+        const tmpValue = currentPart[key];
         const currentValue =
-          (Array.isArray(currentPart[key])
-            ? currentPart[key].join("; ")
-            : currentPart[key]) ?? "";
+          (Array.isArray(tmpValue) ? tmpValue.join("; ") : tmpValue) ?? "";
         if (updatedSurvey[key] === undefined) updatedSurvey[key] = currentValue;
         else if (updatedSurvey[key].length === 0 && currentValue.length > 0)
           updatedSurvey[key] = currentValue;

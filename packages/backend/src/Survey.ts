@@ -2,7 +2,7 @@ import Elysia, { t } from "elysia";
 import e from "../../../dbschema/edgeql-js";
 import { type edgedb } from "../../../dbschema/edgeql-js/imports";
 import { SurveyPart1, SurveyPart2 } from "../../../dbschema/interfaces";
-import { mergeRows } from "../../shared/helper";
+// import { mergeRows } from "../../shared/helper";
 import { getUser, userService } from "./user";
 
 const surveyPart1Params = t.Object({
@@ -70,127 +70,127 @@ class SurveyController {
     return result.id;
   }
 
-  async getAll(): Promise<any> {
-    const query = e.select(e.User, (user) => ({
-      id: true,
-      visitorId: true,
-      createdAt: true,
-      surveyPart1: e.select(e.SurveyPart1, (surveyPart1) => ({
-        ...e.SurveyPart1["*"],
-        user: false,
-        filter: e.op(user, "=", surveyPart1.user),
-      })),
-      surveyPart2: e.select(e.SurveyPart2, (surveyPart2) => ({
-        ...e.SurveyPart2["*"],
-        user: false,
-        filter: e.op(user, "=", surveyPart2.user),
-      })),
-      fingerprint: e.select(e.Fingerprint, (fingerprint) => ({
-        ...e.Fingerprint["*"],
-        user: false,
-        filter: e.op(user, "=", fingerprint.user),
-      })),
-      order_by: user.createdAt,
-      filter: e.op(user.createdAt, ">=", new Date("2024-12-14")),
-    }));
+  // async getAll(): Promise<any> {
+  //   const query = e.select(e.User, (user) => ({
+  //     id: true,
+  //     visitorId: true,
+  //     createdAt: true,
+  //     surveyPart1: e.select(e.SurveyPart1, (surveyPart1) => ({
+  //       ...e.SurveyPart1["*"],
+  //       user: false,
+  //       filter: e.op(user, "=", surveyPart1.user),
+  //     })),
+  //     surveyPart2: e.select(e.SurveyPart2, (surveyPart2) => ({
+  //       ...e.SurveyPart2["*"],
+  //       user: false,
+  //       filter: e.op(user, "=", surveyPart2.user),
+  //     })),
+  //     fingerprint: e.select(e.Fingerprint, (fingerprint) => ({
+  //       ...e.Fingerprint["*"],
+  //       user: false,
+  //       filter: e.op(user, "=", fingerprint.user),
+  //     })),
+  //     order_by: user.createdAt,
+  //     filter: e.op(user.createdAt, ">=", new Date("2024-12-14")),
+  //   }));
 
-    // console.log("Query:", query.toEdgeQL());
-    const eql = query.toEdgeQL();
+  //   // console.log("Query:", query.toEdgeQL());
+  //   const eql = query.toEdgeQL();
 
-    const result = await query.run(this.client);
+  //   const result = await query.run(this.client);
 
-    const csvArr = [
-      [
-        "User Id",
-        "Tracking Id",
-        "Date submitted",
-        "How much targeted ads in the last weeks",
-        "Knowledge about how advertisers know interests",
-        "Knowledge about targeted ads",
-        "Knowledge about being tracked",
-        "How much ok to be tracked from 1 (not at all) to 5 (very much)",
-        "Knowledge about how tracking works",
-        "Familiar tracking methods",
-        "Participant interested in learning more",
-        "Participant interested in following learning methods",
-        "Participant age group",
-        "Participant employment/educational status",
-        "Participants pronouns",
-        "Participant has agreed to give device fingerprint",
-      ],
-    ];
+  //   const csvArr = [
+  //     [
+  //       "User Id",
+  //       "Tracking Id",
+  //       "Date submitted",
+  //       "How much targeted ads in the last weeks",
+  //       "Knowledge about how advertisers know interests",
+  //       "Knowledge about targeted ads",
+  //       "Knowledge about being tracked",
+  //       "How much ok to be tracked from 1 (not at all) to 5 (very much)",
+  //       "Knowledge about how tracking works",
+  //       "Familiar tracking methods",
+  //       "Participant interested in learning more",
+  //       "Participant interested in following learning methods",
+  //       "Participant age group",
+  //       "Participant employment/educational status",
+  //       "Participants pronouns",
+  //       "Participant has agreed to give device fingerprint",
+  //     ],
+  //   ];
 
-    result.forEach((user) => {
-      const part1Arr = mergeRows(
-        user.surveyPart1.map((part1) => {
-          return [
-            part1.numLastWeeksAds1,
-            part1.howDoAdvertisersKnow2,
-            part1.knowledgeTargetedAds3,
-            part1.IAmTrackedKnowledge4,
-            part1.okToBeTracked5,
-            part1.knowledgeHowTracking6,
-            part1.trackingMethodsFamiliar7.join("; "),
-          ];
-        }),
-      );
+  //   result.forEach((user) => {
+  //     const part1Arr = mergeRows(
+  //       user.surveyPart1.map((part1) => {
+  //         return [
+  //           part1.numLastWeeksAds1,
+  //           part1.howDoAdvertisersKnow2,
+  //           part1.knowledgeTargetedAds3,
+  //           part1.IAmTrackedKnowledge4,
+  //           part1.okToBeTracked5,
+  //           part1.knowledgeHowTracking6,
+  //           part1.trackingMethodsFamiliar7.join("; "),
+  //         ];
+  //       }),
+  //     );
 
-      const part2Arr = mergeRows(
-        user.surveyPart2.map((part2) => {
-          return [
-            part2.interestInLearning8,
-            part2.learningApproaches9.join("; "),
-            part2.age10 === "25-40" ? "26-40" : part2.age10,
-            part2.work11,
-            part2.pronouns12,
-          ];
-        }),
-      );
+  //     const part2Arr = mergeRows(
+  //       user.surveyPart2.map((part2) => {
+  //         return [
+  //           part2.interestInLearning8,
+  //           part2.learningApproaches9.join("; "),
+  //           part2.age10 === "25-40" ? "26-40" : part2.age10,
+  //           part2.work11,
+  //           part2.pronouns12,
+  //         ];
+  //       }),
+  //     );
 
-      const hasFingerprint = user.fingerprint.length > 0 ? "yes" : "no";
+  //     const hasFingerprint = user.fingerprint.length > 0 ? "yes" : "no";
 
-      if (part1Arr.length === 0 && part2Arr.length === 0) return;
-      if (part1Arr.length === 0) part1Arr.push(...new Array(7).fill(""));
-      if (part2Arr.length === 0) part2Arr.push(...new Array(5).fill(""));
+  //     if (part1Arr.length === 0 && part2Arr.length === 0) return;
+  //     if (part1Arr.length === 0) part1Arr.push(...new Array(7).fill(""));
+  //     if (part2Arr.length === 0) part2Arr.push(...new Array(5).fill(""));
 
-      const row = [
-        user.id,
-        user.visitorId,
-        user.createdAt.toLocaleDateString(),
-        ...part1Arr,
-        ...part2Arr,
-        hasFingerprint,
-      ];
+  //     const row = [
+  //       user.id,
+  //       user.visitorId,
+  //       user.createdAt.toLocaleDateString(),
+  //       ...part1Arr,
+  //       ...part2Arr,
+  //       hasFingerprint,
+  //     ];
 
-      csvArr.push(row);
-    });
+  //     csvArr.push(row);
+  //   });
 
-    // let csvContent = "data:text/csv;charset=utf-8,";
-    let csvContent = "";
-    csvArr.forEach((rowArr) => {
-      const row = rowArr.join(",");
-      csvContent += row + "\r\n";
-    });
+  //   // let csvContent = "data:text/csv;charset=utf-8,";
+  //   let csvContent = "";
+  //   csvArr.forEach((rowArr) => {
+  //     const row = rowArr.join(",");
+  //     csvContent += row + "\r\n";
+  //   });
 
-    return { result, csvArr, csvContent, eql };
-  }
+  //   return { result, csvArr, csvContent, eql };
+  // }
 }
 
 export const surveyRoutes = (client: edgedb.Client) =>
   new Elysia({ prefix: "/survey" })
     .use(userService)
     .decorate("surveyController", new SurveyController(client))
-    .get("/all", async ({ surveyController, set }) => {
-      const { csvContent, eql } = await surveyController.getAll();
-      // set.headers["Content-Type"] = "data:text/csv";
+    // .get("/all", async ({ surveyController, set }) => {
+    //   const { csvContent, eql } = await surveyController.getAll();
+    //   set.headers["Content-Type"] = "data:text/csv";
 
-      // return csvContent;
+    //   return csvContent;
 
-      return {
-        success: true,
-        data: eql,
-      };
-    })
+    //   // return {
+    //   //   success: true,
+    //   //   data: eql,
+    //   // };
+    // })
     .use(getUser)
     .model({ surveyPart1Params, surveyPart2Params })
     .post(
