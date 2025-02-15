@@ -12,15 +12,12 @@ from plot_comfort_level_being_tracked import (
 from plot_learing_methods import create_learning_methods_plot
 from info import print_info
 
-# asyncio.run(get_survey_data())
-
+# https://colorbrewer2.org/#type=diverging&scheme=RdYlBu&n=5
 color_map = ["#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"]
 
 
 async def main():
     survey_data = await get_survey_data()
-
-    # print(asdict(survey_data[0].surveyPart1[0]))
 
     users: List[Dict[str, str]] = []
 
@@ -53,7 +50,6 @@ async def main():
         }
         users.append(cleaned_user)
 
-    # print(users)
     create_freq_plot(users, plt, color_map)
     create_comfort_level_plot(users, plt, color_map)
     create_comfort_level_by_age_plot(users, plt, color_map)
