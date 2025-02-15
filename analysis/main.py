@@ -10,8 +10,11 @@ from plot_comfort_level_being_tracked import (
     create_comfort_level_by_age_plot,
 )
 from plot_learing_methods import create_learning_methods_plot
+from info import print_info
 
 # asyncio.run(get_survey_data())
+
+color_map = ["#2c7bb6", "#abd9e9", "#ffffbf", "#fdae61", "#d7191c"]
 
 
 async def main():
@@ -51,10 +54,11 @@ async def main():
         users.append(cleaned_user)
 
     # print(users)
-    create_freq_plot(users, plt)
-    create_comfort_level_plot(users, plt)
-    create_comfort_level_by_age_plot(users, plt)
-    create_learning_methods_plot(users, plt)
+    create_freq_plot(users, plt, color_map)
+    create_comfort_level_plot(users, plt, color_map)
+    create_comfort_level_by_age_plot(users, plt, color_map)
+    create_learning_methods_plot(users, plt, color_map)
+    print_info(users)
 
     plt.show()
 

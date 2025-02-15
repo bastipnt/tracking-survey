@@ -1,7 +1,7 @@
 from typing import List, Dict
 
 
-def create_comfort_level_plot(users: List[Dict[str, str]], plt):
+def create_comfort_level_plot(users: List[Dict[str, str]], plt, color_map):
     fig, ax = plt.subplots()
 
     comfort_level = ["1", "2", "3", "4", "5"]
@@ -17,7 +17,7 @@ def create_comfort_level_plot(users: List[Dict[str, str]], plt):
     # bar_labels = ["red", "blue", "_red", "orange"]
     # bar_colors = ["tab:red", "tab:blue", "tab:red", "tab:orange"]
 
-    ax.bar(comfort_level, counts)
+    ax.bar(comfort_level, counts, color=color_map[0])
 
     ax.set_ylabel("Count")
     ax.set_xlabel("Comfort Level from 1 (not comfortable) to 5 (comfortable)")
@@ -36,13 +36,14 @@ def get_count(answers: List[str]) -> List[int]:
     return counts
 
 
-def create_comfort_level_by_age_plot(users: List[Dict[str, str]], plt):
+def create_comfort_level_by_age_plot(users: List[Dict[str, str]], plt, color_map):
     fig, ax = plt.subplots()
 
     age_groups = ["less-than-18", "18-25", "26-40", "more-than-40"]
     age_groups_labels = ["Less than 18", "18-25", "26-40", "More than 40"]
     comfort_levels = ["1", "2", "3", "4", "5"]
 
+    i = 4
     for comfort_level in comfort_levels:
         counts = list(
             map(
@@ -62,7 +63,8 @@ def create_comfort_level_by_age_plot(users: List[Dict[str, str]], plt):
             else "5 (comfortable)" if comfort_level == "5" else comfort_level
         )
 
-        ax.bar(age_groups_labels, counts, label=label)
+        ax.bar(age_groups_labels, counts, label=label, color=color_map[i])
+        i -= 1
 
     ax.set_ylabel("Count")
     ax.set_xlabel("Age Groups")

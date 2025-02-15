@@ -1,7 +1,7 @@
 from typing import List, Dict
 
 
-def create_freq_plot(users: List[Dict[str, str]], plt):
+def create_freq_plot(users: List[Dict[str, str]], plt, color_map):
     fig, ax = plt.subplots()
 
     last_week_ads = ["none", "once", "sometimes", "often"]
@@ -17,9 +17,9 @@ def create_freq_plot(users: List[Dict[str, str]], plt):
     # bar_labels = ["red", "blue", "_red", "orange"]
     # bar_colors = ["tab:red", "tab:blue", "tab:red", "tab:orange"]
 
-    ax.bar(last_week_ads, counts)
+    ax.bar(last_week_ads, counts, color=color_map[0])
 
     ax.set_ylabel("Count")
     ax.set_xlabel("Frequency")
-    ax.set_title("Frequency of Exposure to Trgeted Ads")
+    ax.set_title("Frequency of Exposure to Targeted Ads")
     # ax.legend(title="Targeted Ads")

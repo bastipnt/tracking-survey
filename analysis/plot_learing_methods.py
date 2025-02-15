@@ -1,7 +1,7 @@
 from typing import List, Dict
 
 
-def create_learning_methods_plot(users: List[Dict[str, str]], plt):
+def create_learning_methods_plot(users: List[Dict[str, str]], plt, color_map):
     fig, ax = plt.subplots(constrained_layout=True)
 
     learning_methods = [
@@ -25,7 +25,7 @@ def create_learning_methods_plot(users: List[Dict[str, str]], plt):
     # bar_labels = ["red", "blue", "_red", "orange"]
     # bar_colors = ["tab:red", "tab:blue", "tab:red", "tab:orange"]
 
-    ax.bar(learning_methods, counts)
+    ax.bar(learning_methods, counts, color=color_map[0])
 
     # plt.xticks(rotation=45)
 
