@@ -41,22 +41,6 @@ def merge_survey_data(survey_parts: List[SurveyPart]) -> Dict[str, str]:
     return merged_survey
 
 
-def get_counts(users: List[User], field: str) -> Dict[str, int]:
-    res = {}
-    values = list(map(lambda user: user[field], users))
-    for value in values:
-        value = "no answer" if value == "" else value
-        res[value] = value in res and res[value] + 1 or 1
-
-    return res
-
-
-def print_percentages(values: Dict[str, str], total: int):
-    for key in values:
-        percentage = round(values[key] / total * 100, 2)
-        print(f"{key}: {percentage}")
-
-
 def get_all_counts(users: List[User]) -> Counts:
     counts: Counts = {}
 
