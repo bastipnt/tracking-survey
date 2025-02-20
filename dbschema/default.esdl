@@ -36,6 +36,7 @@ module default {
     multi trackingMethodsFamiliar7: str {
       constraint one_of ("ip-address", "cookie", "tracking-pixels", "tracking-links", "browser-fingerprinting");
     };
+    required referredFromTest: bool;
   }
 
   type SurveyPart2 {
@@ -56,5 +57,6 @@ module default {
     required pronouns12: str {
       constraint one_of ("She/her", "He/him", "They/them", "Other", "PreferNotToSay");
     };
+    required referredFromTest: bool;
   }
 }

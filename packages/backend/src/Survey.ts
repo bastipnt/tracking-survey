@@ -13,6 +13,7 @@ const surveyPart1Params = t.Object({
   okToBeTracked5: t.String(),
   knowledgeHowTracking6: t.String(),
   trackingMethodsFamiliar7: t.Array(t.String()),
+  referredFromTest: t.Boolean(),
 });
 
 const surveyPart2Params = t.Object({
@@ -21,6 +22,7 @@ const surveyPart2Params = t.Object({
   age10: t.String(),
   work11: t.String(),
   pronouns12: t.String(),
+  referredFromTest: t.Boolean(),
 });
 
 class SurveyController {

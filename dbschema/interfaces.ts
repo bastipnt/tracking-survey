@@ -89,6 +89,7 @@ export namespace $default {
     "trackingMethodsFamiliar7": string[];
     "createdAt": Date;
     "user": User;
+    "referredFromTest": boolean;
   }
   export interface SurveyPart2 extends std.$Object {
     "age10": string;
@@ -98,6 +99,7 @@ export namespace $default {
     "createdAt": Date;
     "pronouns12": string;
     "user": User;
+    "referredFromTest": boolean;
   }
   export interface User extends std.$Object {
     "visitorId": string;
