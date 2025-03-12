@@ -1,72 +1,146 @@
-from typing import List, Dict
+# from typing import List, Dict
+import plotly.express as px
 
 
-def create_comfort_level_plot(users: List[Dict[str, str]], plt, color_map):
-    fig, ax = plt.subplots()
+# def create_comfort_level_plot(users: List[Dict[str, str]], plt, color_map):
+#     fig, ax = plt.subplots()
 
-    comfort_level = ["1", "2", "3", "4", "5"]
+#     comfort_level = ["1", "2", "3", "4", "5"]
 
-    one_counts = sum(1 for user in users if user["okToBeTracked5"] == "1")
-    two_counts = sum(1 for user in users if user["okToBeTracked5"] == "2")
-    three_counts = sum(1 for user in users if user["okToBeTracked5"] == "3")
-    four_counts = sum(1 for user in users if user["okToBeTracked5"] == "4")
-    five_counts = sum(1 for user in users if user["okToBeTracked5"] == "5")
+#     one_counts = sum(1 for user in users if user["okToBeTracked5"] == "1")
+#     two_counts = sum(1 for user in users if user["okToBeTracked5"] == "2")
+#     three_counts = sum(1 for user in users if user["okToBeTracked5"] == "3")
+#     four_counts = sum(1 for user in users if user["okToBeTracked5"] == "4")
+#     five_counts = sum(1 for user in users if user["okToBeTracked5"] == "5")
 
-    counts = [one_counts, two_counts, three_counts, four_counts, five_counts]
+#     counts = [one_counts, two_counts, three_counts, four_counts, five_counts]
 
-    # bar_labels = ["red", "blue", "_red", "orange"]
-    # bar_colors = ["tab:red", "tab:blue", "tab:red", "tab:orange"]
+#     # bar_labels = ["red", "blue", "_red", "orange"]
+#     # bar_colors = ["tab:red", "tab:blue", "tab:red", "tab:orange"]
 
-    ax.bar(comfort_level, counts, color=color_map[0])
+#     ax.bar(comfort_level, counts, color=color_map[0])
 
-    ax.set_ylabel("Count")
-    ax.set_xlabel("Comfort Level from 1 (not comfortable) to 5 (comfortable)")
-    ax.set_title("Comfort Level with Being Tracked")
-    # ax.legend(title="Targeted Ads")
-
-
-def get_count(answers: List[str]) -> List[int]:
-    one_counts = sum(1 for answer in answers if answer == "1")
-    two_counts = sum(1 for answer in answers if answer == "2")
-    three_counts = sum(1 for answer in answers if answer == "3")
-    four_counts = sum(1 for answer in answers if answer == "4")
-    five_counts = sum(1 for answer in answers if answer == "5")
-
-    counts = [one_counts, two_counts, three_counts, four_counts, five_counts]
-    return counts
+#     ax.set_ylabel("Count")
+#     ax.set_xlabel("Comfort Level from 1 (not comfortable) to 5 (comfortable)")
+#     ax.set_title("Comfort Level with Being Tracked")
+#     # ax.legend(title="Targeted Ads")
 
 
-def create_comfort_level_by_age_plot(users: List[Dict[str, str]], plt, color_map):
-    fig, ax = plt.subplots()
+def create_comfort_level_plot(users):
+    order = [1, 2, 3, 4, 5]
 
-    age_groups = ["less-than-18", "18-25", "26-40", "more-than-40"]
-    age_groups_labels = ["Less than 18", "18-25", "26-40", "More than 40"]
-    comfort_levels = ["1", "2", "3", "4", "5"]
+    fig = px.bar(
+        users,
+        x="okToBeTracked5",
+        category_orders={"okToBeTracked5": order},
+        labels={
+            "okToBeTracked5": "Comfort Level from 1 (not comfortable) to 5 (comfortable)",
+            "count": "Count",
+        },
+        title="Comfort Level with Being Tracked",
+    )
 
-    i = 4
-    for comfort_level in comfort_levels:
-        counts = list(
-            map(
-                lambda age_group: sum(
-                    1
-                    for user in users
-                    if user["age10"] == age_group
-                    and user["okToBeTracked5"] == comfort_level
-                ),
-                age_groups,
-            )
-        )
+    fig.update_layout(
+        title_font_size=34,
+        xaxis_title_font_size=30,
+        yaxis_title_font_size=30,
+        legend_font_size=24,
+    )
 
-        label = (
-            "1 (not comfortable)"
-            if comfort_level == "1"
-            else "5 (comfortable)" if comfort_level == "5" else comfort_level
-        )
+    fig.update_xaxes(tickfont_size=20)
+    fig.update_yaxes(tickfont_size=20)
 
-        ax.bar(age_groups_labels, counts, label=label, color=color_map[i])
-        i -= 1
+    fig.show()
 
-    ax.set_ylabel("Count")
-    ax.set_xlabel("Age Groups")
-    ax.set_title("Comfort Level with Being Tracked across Age Groups")
-    ax.legend(title="Comfort Level")
+
+def create_comfort_level_by_age_plot(users):
+    order = ["< 18", "18-25", "26-40", "40+"]
+
+    counts = users.groupby(["age10", "okToBeTracked5"]).size().reset_index(name="count")
+
+    counts["age10"] = counts["age10"].replace(
+        {"less-than-18": "< 18", "more-than-40": "40+"}
+    )
+
+    counts["okToBeTracked5"] = counts["okToBeTracked5"].replace(
+        {
+            "1": "1 (not comfortable)",
+            "2": "2 (rather not comfortable)",
+            "3": "3 (ok)",
+            "4": "4 (somewhat comfortable)",
+            "5": "5 (comfortable)",
+        }
+    )
+
+    fig = px.bar(
+        counts,
+        x="age10",
+        y="count",
+        color="okToBeTracked5",
+        category_orders={"age10": order},
+        labels={
+            "age10": "Age Groups",
+            "okToBeTracked5": "Comfort Levels with Being Tracked",
+            "count": "Count of Comfort Levels",
+        },
+        title="Comfort Level with Being Tracked across Age Groups",
+    )
+
+    fig.update_layout(
+        title_font_size=34,
+        xaxis_title_font_size=30,
+        yaxis_title_font_size=30,
+        legend_font_size=24,
+    )
+
+    fig.update_xaxes(tickfont_size=20)
+    fig.update_yaxes(tickfont_size=20)
+
+    fig.show()
+
+
+# def get_count(answers: List[str]) -> List[int]:
+#     one_counts = sum(1 for answer in answers if answer == "1")
+#     two_counts = sum(1 for answer in answers if answer == "2")
+#     three_counts = sum(1 for answer in answers if answer == "3")
+#     four_counts = sum(1 for answer in answers if answer == "4")
+#     five_counts = sum(1 for answer in answers if answer == "5")
+
+#     counts = [one_counts, two_counts, three_counts, four_counts, five_counts]
+#     return counts
+
+
+# def create_comfort_level_by_age_plot_old(users: List[Dict[str, str]], plt, color_map):
+#     fig, ax = plt.subplots()
+
+#     age_groups = ["less-than-18", "18-25", "26-40", "more-than-40"]
+#     age_groups_labels = ["Less than 18", "18-25", "26-40", "More than 40"]
+#     comfort_levels = ["1", "2", "3", "4", "5"]
+
+#     i = 4
+#     for comfort_level in comfort_levels:
+#         counts = list(
+#             map(
+#                 lambda age_group: sum(
+#                     1
+#                     for user in users
+#                     if user["age10"] == age_group
+#                     and user["okToBeTracked5"] == comfort_level
+#                 ),
+#                 age_groups,
+#             )
+#         )
+
+#         label = (
+#             "1 (not comfortable)"
+#             if comfort_level == "1"
+#             else "5 (comfortable)" if comfort_level == "5" else comfort_level
+#         )
+
+#         ax.bar(age_groups_labels, counts, label=label, color=color_map[i])
+#         i -= 1
+
+#     ax.set_ylabel("Count")
+#     ax.set_xlabel("Age Groups")
+#     ax.set_title("Comfort Level with Being Tracked across Age Groups")
+#     ax.legend(title="Comfort Level")

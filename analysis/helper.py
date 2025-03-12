@@ -20,7 +20,8 @@ def merge_survey_data(survey_parts: List[SurveyPart]) -> Dict[str, str]:
         current_part = asdict(part)
         for key, value in current_part.items():
             current_value = (
-                "; ".join(value)
+                # "; ".join(value)
+                value
                 if isinstance(value, list)
                 else (
                     value.isoformat()
