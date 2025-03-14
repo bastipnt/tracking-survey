@@ -48,7 +48,7 @@ def get_all_counts(users: List[User]) -> Counts:
     for user in users:
         for field, answer in user.items():
             if field not in ["id", "tracking_id", "created_at"]:
-                answer = answer.split("; ")
+                answer = answer if isinstance(answer, list) else [answer]
                 if field in counts:
                     for val in answer:
                         val = "no answer" if val == "" else val

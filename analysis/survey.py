@@ -72,7 +72,7 @@ ORDER BY user_scope.createdAt
 async def get_clean_survey_data():
     survey_data = await get_survey_data()
 
-    users: List[Dict[str, str]] = []
+    cleaned_users: List[Dict[str, str]] = []
     unfinished_users: List[Dict[str, str]] = []
 
     for user in survey_data:
@@ -124,14 +124,12 @@ async def get_clean_survey_data():
                 "allowedFingerprint": "yes" if has_fingerprint else "no",
                 "surveyState": survey_state,
             }
-            users.append(cleaned_user)
+            cleaned_users.append(cleaned_user)
 
-    return users
+    return [cleaned_users, unfinished_users]
 
 
-async def get_user_data_frame():
-    cleaned_users = await get_clean_survey_data()
-
+def get_user_data_frame(cleaned_users):
     df = pd.DataFrame(
         cleaned_users,
         columns=[
