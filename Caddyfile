@@ -1,0 +1,10 @@
+:80 {
+	@backend path /user/* /survey/* /fp/*
+	@admin_ui path /ui /ui/* /db/* /auth/token
+
+	reverse_proxy @backend tracking-survey-backend:3000
+	reverse_proxy @admin_ui gel-db:5656
+
+	root * /srv
+	file_server
+}

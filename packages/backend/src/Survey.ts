@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
 import e from "../../../dbschema/edgeql-js";
-import { type edgedb } from "../../../dbschema/edgeql-js/imports";
+import { type gel } from "../../../dbschema/edgeql-js/imports";
 import { SurveyPart1, SurveyPart2 } from "../../../dbschema/interfaces";
 // import { mergeRows } from "../../shared/helper";
 import { getUser, userService } from "./user";
@@ -26,9 +26,9 @@ const surveyPart2Params = t.Object({
 });
 
 class SurveyController {
-  private client: edgedb.Client;
+  private client: gel.Client;
 
-  constructor(client: edgedb.Client) {
+  constructor(client: gel.Client) {
     this.client = client;
   }
 
@@ -178,7 +178,7 @@ class SurveyController {
   // }
 }
 
-export const surveyRoutes = (client: edgedb.Client) =>
+export const surveyRoutes = (client: gel.Client) =>
   new Elysia({ prefix: "/survey" })
     .use(userService)
     .decorate("surveyController", new SurveyController(client))

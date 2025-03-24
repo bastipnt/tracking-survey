@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
 import e from "../../../dbschema/edgeql-js";
-import { type edgedb } from "../../../dbschema/edgeql-js/imports";
+import { type gel } from "../../../dbschema/edgeql-js/imports";
 
 const userModel = t.Object({
   id: t.String(),
@@ -8,9 +8,9 @@ const userModel = t.Object({
 });
 
 class UserHandler {
-  private client: edgedb.Client;
+  private client: gel.Client;
 
-  constructor(client: edgedb.Client) {
+  constructor(client: gel.Client) {
     this.client = client;
   }
 
@@ -84,7 +84,7 @@ export const getUser = new Elysia()
   }))
   .as("plugin");
 
-export const userRoutes = (client: edgedb.Client) =>
+export const userRoutes = (client: gel.Client) =>
   new Elysia({ prefix: "/user" })
     .use(userService)
     .decorate("userHandler", new UserHandler(client))

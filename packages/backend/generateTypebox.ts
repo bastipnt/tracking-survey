@@ -19,16 +19,14 @@ const getExports = (
     /export interface .+ {\n((?:.*?|\n)*?)}/g,
   );
 
-  return (
-    exports?.map((part) => {
-      const trimedPart = part.replace("export interface ", "");
-      const match = trimedPart.match(/(.+) ({\n(?:.*?|\n)*?})/);
-      const name = match?.at(1) || "";
-      const value = match?.at(2) || "";
+  return (exports?.map((part) => {
+    const trimedPart = part.replace("export interface ", "");
+    const match = trimedPart.match(/(.+) ({\n(?:.*?|\n)*?})/);
+    const name = match?.at(1) || "";
+    const value = match?.at(2) || "";
 
-      return { name, value };
-    }) ?? []
-  );
+    return { name, value };
+  }) ?? []);
 };
 
 const writeTypeboxInterface = async () => {

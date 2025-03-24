@@ -1,6 +1,6 @@
 import Elysia, { t } from "elysia";
 import e from "../../../dbschema/edgeql-js";
-import { edgedb } from "../../../dbschema/edgeql-js/imports";
+import { gel } from "../../../dbschema/edgeql-js/imports";
 import { Fingerprint } from "../../../dbschema/interfaces";
 import { getUser, userService } from "./user";
 
@@ -9,9 +9,9 @@ const fingerprintParams = t.Object({
 });
 
 class FingerprintController {
-  private client: edgedb.Client;
+  private client: gel.Client;
 
-  constructor(client: edgedb.Client) {
+  constructor(client: gel.Client) {
     this.client = client;
   }
 
@@ -32,7 +32,7 @@ class FingerprintController {
   }
 }
 
-export const fingerprintRoutes = (client: edgedb.Client) =>
+export const fingerprintRoutes = (client: gel.Client) =>
   new Elysia({ prefix: "/fp" })
     .use(userService)
     .decorate("fpController", new FingerprintController(client))

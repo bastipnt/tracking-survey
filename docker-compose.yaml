@@ -1,0 +1,64 @@
+services:
+  tracking-survey-website:
+    image: caddy:latest
+    restart: unless-stopped
+    # ports:
+    #   - 3000:80
+    environment:
+      - VITE_BACKEND_URL
+    networks:
+      - caddy
+      - tracking_survey_network
+    labels:
+      caddy: tracking-survey-2.bastipnt.de
+      caddy.reverse_proxy: "{{upstreams}}"
+      caddy.header: /*
+      caddy.header.Strict-Transport-Security: '"max-age=15552000;"'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./packages/frontend/dist:/srv
+      - online_privacy_data:/data
+      - online_privacy_config:/config
+
+  tracking-survey-backend:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: litc0de/priv:latest
+    environment:
+      - GEL_DSN
+      - GEL_CLIENT_TLS_SECURITY
+    networks:
+      - tracking_survey_network
+    links:
+      - gel-db
+
+  gel-db:
+    image: geldata/gel:latest
+    restart: unless-stopped
+    # ports:
+    #   - "5656:5656"
+    environment:
+      - GEL_SERVER_PASSWORD
+      - GEL_SERVER_BACKEND_DSN
+      - GEL_SERVER_TLS_CERT_MODE
+      - GEL_SERVER_ADMIN_UI
+    networks:
+      - tracking_survey_network
+      - postgres_network
+    volumes:
+      - gel_data:/var/lib/gel/data
+      - ${PWD}/dbschema/migrations:/dbschema/migrations
+
+volumes:
+  online_privacy_data:
+  online_privacy_config:
+  gel_data:
+
+networks:
+  caddy:
+    external: true
+  postgres_network:
+    external: true
+  tracking_survey_network:
+    internal: true

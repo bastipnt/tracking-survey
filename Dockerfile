@@ -20,11 +20,11 @@ COPY packages/frontend/package.json /temp/prod/packages/frontend/
 RUN cd /temp/prod && bun install --frozen-lockfile --production
 
 # FROM base AS generate_edgeql
-# COPY packages/backend/edgedb.toml .
+# COPY packages/backend/gel.toml .
 # COPY packages/backend/dbschema .
-# RUN --mount=type=secret,id=EDGEDB_DSN \
-#   EDGEDB_DSN="$(cat /run/secrets/EDGEDB_DSN)" bunx edgedb migrate --dsn=$EDGEDB_DSN
-# RUN bunx @edgedb/generate edgeql-js
+# RUN --mount=type=secret,id=GEL_DSN \
+#   GEL_DSN="$(cat /run/secrets/GEL_DSN)" bunx edgegeldb migrate --dsn=$GEL_DSN
+# RUN bunx @gel/generate edgeql-js
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
@@ -37,13 +37,13 @@ COPY . .
 ENV NODE_ENV=production
 ENV VITE_BACKEND_URL=tracking-survey.bastipnt.de
 RUN cd /usr/src/app/packages/backend && bun run build
-RUN cd /usr/src/app/packages/frontend && bun run build
+# RUN cd /usr/src/app/packages/frontend && bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/packages/backend/build/server .
-COPY --from=prerelease /usr/src/app/packages/frontend/dist dist
+# COPY --from=prerelease /usr/src/app/packages/frontend/dist dist
 
 # run the app
 USER bun

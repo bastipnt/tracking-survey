@@ -11,9 +11,9 @@ bun install
 ```sh
 cd packages/backend
 
-edgedb migrate
-bunx @edgedb/generate interfaces
-bunx @edgedb/generate edgeql-js
+gel migrate
+bunx @gel/generate interfaces
+bunx @gel/generate edgeql-js
 ```
 
 ### Frontend
