@@ -1,5 +1,3 @@
-[instance]
-server-version = 6.1
+[edgedb]
 
-[hooks]
-schema.update.after = "bunx @gel/generate edgeql-js"
+server-version = "5.7"

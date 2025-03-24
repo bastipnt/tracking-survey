@@ -20,10 +20,11 @@ COPY packages/frontend/package.json /temp/prod/packages/frontend/
 RUN cd /temp/prod && bun install --frozen-lockfile --production
 
 # FROM base AS generate_edgeql
-# COPY packages/backend/gel.toml .
-# COPY packages/backend/dbschema .
-# RUN --mount=type=secret,id=GEL_DSN \
-#   GEL_DSN="$(cat /run/secrets/GEL_DSN)" bunx edgegeldb migrate --dsn=$GEL_DSN
+# COPY gel.toml .
+# COPY dbschema .
+# # RUN --mount=type=secret,id=GEL_DSN \
+# #   GEL_DSN="$(cat /run/secrets/GEL_DSN)" bunx edgegeldb migrate --dsn=$GEL_DSN
+# RUN bunx gel instance link --dsn=$GEL_DSN
 # RUN bunx @gel/generate edgeql-js
 
 # copy node_modules from temp directory
