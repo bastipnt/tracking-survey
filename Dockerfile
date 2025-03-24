@@ -23,7 +23,7 @@ RUN cd /temp/prod && bun install --frozen-lockfile --production
 # COPY gel.toml .
 # COPY dbschema .
 # # RUN --mount=type=secret,id=GEL_DSN \
-# #   GEL_DSN="$(cat /run/secrets/GEL_DSN)" bunx edgegeldb migrate --dsn=$GEL_DSN
+# #   GEL_DSN="$(cat /run/secrets/GEL_DSN)" bunx gel migrate --dsn=$GEL_DSN
 # RUN bunx gel instance link --dsn=$GEL_DSN
 # RUN bunx @gel/generate edgeql-js
 
