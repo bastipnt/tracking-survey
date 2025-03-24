@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Connect to Gel
-        run: bunx gel instance link --dsn=${{ secrets.GEL_DSN }}
+        run: bunx gel instance link --dsn=${{ secrets.GEL_DSN }} --trust-tls-cert
       - name: migrate db
         run: bunx gel migrate
       - name: generate edgeql-js
