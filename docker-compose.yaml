@@ -30,30 +30,30 @@ services:
       - GEL_CLIENT_TLS_SECURITY
     networks:
       - tracking_survey_network
-    links:
-      - gel-db
-
-  gel-db:
-    image: geldata/gel:latest
-    restart: unless-stopped
-    # ports:
-    #   - "5656:5656"
-    environment:
-      - GEL_SERVER_PASSWORD
-      - GEL_SERVER_BACKEND_DSN
-      - GEL_SERVER_TLS_CERT_MODE
-      - GEL_SERVER_ADMIN_UI
-    networks:
-      - tracking_survey_network
       - postgres_network
-    volumes:
-      - gel_data:/var/lib/gel/data
-      - ${PWD}/dbschema/migrations:/dbschema/migrations
+    # links:
+    #   - gel-db
+
+  # gel-db:
+  #   image: geldata/gel:latest
+  #   restart: unless-stopped
+  #   # ports:
+  #   #   - "5656:5656"
+  #   environment:
+  #     - GEL_SERVER_PASSWORD
+  #     - GEL_SERVER_BACKEND_DSN
+  #     - GEL_SERVER_TLS_CERT_MODE
+  #     - GEL_SERVER_ADMIN_UI
+  #   networks:
+  #     - tracking_survey_network
+  #     - postgres_network
+  #   volumes:
+  #     - gel_data:/var/lib/gel/data
+  #     - ${PWD}/dbschema/migrations:/dbschema/migrations
 
 volumes:
   online_privacy_data:
   online_privacy_config:
-  gel_data:
 
 networks:
   caddy:
