@@ -23,35 +23,35 @@ jobs:
   generate-edgeql:
     environment:
       name: website-deploy
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-        - name: Setup Bun
-          uses: oven-sh/setup-bun@v2
-          with:
-            bun-version: "1.0.36"
-        - name: Restore cache
-          uses: actions/cache@v4
-          with:
-            path: |
-              dist
-              .cache
-            key: ${{ runner.os }}-build-${{ hashFiles('dist') }}
-            restore-keys: |
-              ${{ runner.os }}-build-
-        - name: Install dependencies
-          run: bun install
-        - name: Connect to Gel
-          run: bunx gel instance link --dsn=$GEL_DSN
-        - name: generate edgeql-js
-          run: bunx @gel/generate edgeql-js
-        - name: Upload artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: fingerprint-sound-edgeql-js
-            path: dbschema/edgeql-js
-            overwrite: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.0.36"
+      - name: Restore cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+            .cache
+          key: ${{ runner.os }}-build-${{ hashFiles('dist') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+      - name: Install dependencies
+        run: bun install
+      - name: Connect to Gel
+        run: bunx gel instance link --dsn=$GEL_DSN
+      - name: generate edgeql-js
+        run: bunx @gel/generate edgeql-js
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fingerprint-sound-edgeql-js
+          path: dbschema/edgeql-js
+          overwrite: true
 
   build-frontend:
     environment:
